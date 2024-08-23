@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{97902B46-CF68-40DF-AAD3-0B19EFE649FD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DendroDocs.Tool", "src\DendroDocs.Tool\DendroDocs.Tool.csproj", "{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8D0820F2-DD2F-46B5-8648-BAF2CAE32FCD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DendroDocs.Tool.Tests", "tests\DendroDocs.Tool.Tests\DendroDocs.Tool.Tests.csproj", "{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D} = {97902B46-CF68-40DF-AAD3-0B19EFE649FD}
+		{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B} = {8D0820F2-DD2F-46B5-8648-BAF2CAE32FCD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B062964-9931-438A-9BD8-39AECD4D16FA}
+	EndGlobalSection
+EndGlobal

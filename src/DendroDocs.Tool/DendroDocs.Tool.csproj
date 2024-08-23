@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dendrodocs-analyze</ToolCommandName>
+
+    <Authors>Michaël Hompus</Authors>
+    <PackageProjectUrl>https://github.com/dendrodocs/dotnet-tool</PackageProjectUrl>
+    <Description>Tool to analyze a solution and output the detected code structure to enable rendering.</Description>
+    <Copyright>Copyright Michaël Hompus 2019</Copyright>
+    <RepositoryUrl>https://github.com/dendrodocs/dotnet-tool</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Living Documentation; DendroDocs; DendroDocs; Roslyn; UML; Generation;</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Version>0.1.0</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Using Include="CommandLine" />
+		<Using Include="DendroDocs.Extensions" />
+		<Using Include="DendroDocs.Json" />
+		<Using Include="Microsoft.CodeAnalysis" />
+		<Using Include="Microsoft.CodeAnalysis.CSharp" />
+		<Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Buildalyzer.Workspaces" Version="7.0.2" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="DendroDocs.Shared" Version="0.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
+    <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.1" />
+  </ItemGroup>
+
+</Project>

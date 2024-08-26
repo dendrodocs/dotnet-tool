@@ -11,12 +11,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8D0820F2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DendroDocs.Tool.Tests", "tests\DendroDocs.Tool.Tests\DendroDocs.Tool.Tests.csproj", "{B8F2E42D-3EBB-429E-A234-B9C8D9D77F2B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{356A51CF-BAEB-4C92-ACDB-D0C3E54D9FFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{356A51CF-BAEB-4C92-ACDB-D0C3E54D9FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356A51CF-BAEB-4C92-ACDB-D0C3E54D9FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66695CA6-7F1D-4327-917C-1BE7BA5CF89D}.Release|Any CPU.ActiveCfg = Release|Any CPU

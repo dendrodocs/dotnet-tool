@@ -266,11 +266,6 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
 
     private void ExtractAttributes(SyntaxList<AttributeListSyntax> attributes, List<IAttributeDescription> attributeDescriptions)
     {
-        if (attributes == null)
-        {
-            return;
-        }
-
         foreach (var attribute in attributes.SelectMany(a => a.Attributes))
         {
             var attributeDescription = new AttributeDescription(semanticModel.GetTypeDisplayString(attribute), attribute.Name.ToString());

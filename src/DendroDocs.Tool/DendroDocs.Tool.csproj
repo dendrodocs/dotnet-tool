@@ -42,6 +42,8 @@
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DendroDocs.Shared" Version="0.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.11.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
     <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />

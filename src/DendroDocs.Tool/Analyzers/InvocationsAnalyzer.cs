@@ -52,16 +52,16 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
     {
         var expression = this.GetExpressionWithSymbol(node);
 
-        if (Program.RuntimeOptions.VerboseOutput && semanticModel.GetSymbolInfo(expression).Symbol == null)
+        if (semanticModel.GetConstantValue(node).HasValue && IsNameofExpression(node.Expression))
         {
-            Console.WriteLine("WARN: Could not resolve type of invocation of the following block:");
-            Console.WriteLine(node.ToFullString());
+            // nameof is compiler sugar, and is actually a method we are not interrested in
             return;
         }
 
-        if (semanticModel.GetConstantValue(node).HasValue && string.Equals((node.Expression as IdentifierNameSyntax)?.Identifier.ValueText, "nameof", StringComparison.Ordinal))
+        if (Program.RuntimeOptions.VerboseOutput && semanticModel.GetSymbolInfo(expression).Symbol is null)
         {
-            // nameof is compiler sugar, and is actually a method we are not interrested in
+            Console.WriteLine("WARN: Could not resolve type of invocation of the following block:");
+            Console.WriteLine(node.ToFullString());
             return;
         }
 
@@ -142,5 +142,10 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
         statements.Add(assignmentDescription);
 
         base.VisitAssignmentExpression(node);
+    }
+
+    private static bool IsNameofExpression(ExpressionSyntax expression)
+    {
+        return expression is IdentifierNameSyntax identifier && string.Equals(identifier.Identifier.ValueText, "nameof", StringComparison.Ordinal);
     }
 }

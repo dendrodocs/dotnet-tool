@@ -57,6 +57,26 @@ internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> st
         }
     }
 
+    public override void VisitSwitchExpression(SwitchExpressionSyntax node)
+    {
+        var switchStatement = new Switch();
+        statements.Add(switchStatement);
+
+        switchStatement.Expression = node.GoverningExpression.ToString();
+
+        foreach (var arm in node.Arms)
+        {
+            var switchSection = new SwitchSection();
+            switchStatement.Sections.Add(switchSection);
+
+            var label = $"{arm.Pattern}{(arm.WhenClause?.Condition is not null ? $" when {arm.WhenClause.Condition}" : string.Empty)}";
+            switchSection.Labels.Add(label);
+
+            var invocationAnalyzer = new InvocationsAnalyzer(semanticModel, switchSection.Statements);
+            invocationAnalyzer.Visit(arm.Expression);
+        }
+    }
+
     private static string Label(SwitchLabelSyntax label)
     {
         return label switch

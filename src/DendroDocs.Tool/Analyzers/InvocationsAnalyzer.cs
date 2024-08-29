@@ -36,6 +36,12 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
         branchingAnalyzer.Visit(node);
     }
 
+    public override void VisitSwitchExpression(SwitchExpressionSyntax node)
+    {
+        var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);
+        branchingAnalyzer.Visit(node);
+    }
+
     public override void VisitIfStatement(IfStatementSyntax node)
     {
         var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);

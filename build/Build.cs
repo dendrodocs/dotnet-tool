@@ -215,7 +215,7 @@ class Build : NukeBuild
 
     Target PushGithub => _ => _
         .DependsOn(Pack)
-        .OnlyWhenDynamic(() => !IsLocalBuild && !IsTag)
+        .OnlyWhenDynamic(() => !IsLocalBuild && !IsTag && !IsPullRequest)
         .ProceedAfterFailure()
         .Executes(() =>
         {

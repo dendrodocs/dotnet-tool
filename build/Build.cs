@@ -18,9 +18,8 @@ using static Serilog.Log;
 [GitHubActions("Continuous",
     GitHubActionsImage.UbuntuLatest,
     FetchDepth = 0,
-    On = [
-        GitHubActionsTrigger.Push
-    ],
+    OnPushBranches = ["main"],
+    OnPullRequestBranches = ["main"],
     InvokedTargets = [
         nameof(Push)
     ],

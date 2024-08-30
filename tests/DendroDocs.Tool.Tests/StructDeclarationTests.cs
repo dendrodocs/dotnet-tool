@@ -1,7 +1,7 @@
 namespace DendroDocs.Tool.Tests;
 
 [TestClass]
-public class StructModifierTests
+public class StructDeclarationTests
 {
     [DataRow("struct Test {}", Modifier.Internal, DisplayName = "A type description about a struct without a modifier should contain the `internal` modifier")]
     [DataRow("public struct Test {}", Modifier.Public, DisplayName = "A type description about a `public` struct should contain the `public` modifier")]

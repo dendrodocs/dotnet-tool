@@ -1,9 +1,7 @@
 namespace DendroDocs.Tool.Tests;
 
-#if NET6_0_OR_GREATER
-
 [TestClass]
-public class RecordModifierTests
+public class RecordDeclarationTests
 {
     [DataRow("record Test();", Modifier.Internal, DisplayName = "A type description about a record without a modifier should contain the `internal` modifier")]
     [DataRow("public record Test();", Modifier.Public, DisplayName = "A type description about a `public` record should contain the `public` modifier")]
@@ -57,12 +55,13 @@ public class RecordModifierTests
     public void NestedRecordsShouldHaveTheCorrectAccessModifiers(string @record, Modifier modifier)
     {
         // Assign
-        var source = @$"
-        class Test
-        {{
-            {@record}
-        }}
-        ";
+        var source =
+            $$"""
+            class Test
+            {
+                {{@record}}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -87,17 +86,18 @@ public class RecordModifierTests
     public void NestedRecordsShouldHaveTheCorrectModifiers(string @record, Modifier modifier)
     {
         // Assign
-        var source = @$"
-        class Test : ClassB
-        {{
-            {@record}
-        }}
-        class ClassB {{
-            internal record NestedA {{}};
-            internal record class NestedB {{}};
-            internal record struct NestedC {{}};
-        }}
-        ";
+        var source =
+            $$"""
+            class Test : ClassB
+            {
+                {{@record}}
+            }
+            class ClassB {
+                internal record NestedA {};
+                internal record class NestedB {};
+                internal record struct NestedC {};
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
@@ -106,5 +106,3 @@ public class RecordModifierTests
         types[1].Modifiers.Should().HaveFlag(modifier);
     }
 }
-
-#endif

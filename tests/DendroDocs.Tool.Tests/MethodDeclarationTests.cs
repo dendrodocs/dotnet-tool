@@ -1,7 +1,7 @@
 namespace DendroDocs.Tool.Tests;
 
 [TestClass]
-public class MethodModifierTests
+public class MethodDeclarationTests
 {
     [DataRow("void Method() {}", Modifier.Private, DisplayName = "A method description about a method without a modifier should contain the `private` modifier")]
     [DataRow("private void Method() {}", Modifier.Private, DisplayName = "A method description about a `private` method should contain the `private` modifier")]
@@ -14,12 +14,13 @@ public class MethodModifierTests
     public void MethodsShouldHaveTheCorrectAccessModifiers(string method, Modifier modifier)
     {
         // Assign
-        var source = @$"
-        class Test
-        {{
-            {method}
-        }}
-        ";
+        var source =
+            $$"""
+            class Test
+            {
+                {{method}}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -42,20 +43,45 @@ public class MethodModifierTests
     public void MethodsShouldHaveTheCorrectModifiers(string method, Modifier modifier)
     {
         // Assign
-        var source = @$"
-        abstract partial class Test : ClassB
-        {{
-            {method}
-        }}
-        abstract class ClassB {{
-            protected virtual void MethodB() {{}}
-        }}
-        ";
+        var source =
+            $$"""
+            abstract partial class Test : ClassB
+            {
+                {{method}}
+            }
+            abstract class ClassB {
+                protected virtual void MethodB() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source, "CS0626", "CS1998");
 
         // Assert
         types[0].Methods[0].Modifiers.Should().HaveFlag(modifier);
+    }
+
+    [DataRow("dynamic", "dynamic", DisplayName = "A method returning `dynamic` should be correctly identified as `dynamic`")]
+    [DataRow("int", "int", DisplayName = "A method returning a non-nullable `int` should be correctly identified as `int`")]
+    [DataRow("int?", "int?", DisplayName = "A method returning a nullable `int?` should be correctly identified as `int?`")]
+    [DataRow("System.String", "string", DisplayName = "A method returning a non-nullable `System.String` should be correctly identified as string`")]
+    [TestMethod]
+    public void MethodsShouldParseReturnTypesCorrectly(string returnType, string expectedReturnType)
+    {
+        // Assign
+        var source =
+            $$"""
+            #nullable enable
+            class Test
+            {
+                {{returnType}} Method() { return default; }
+            }
+            """;
+
+        // Act
+        var types = TestHelper.VisitSyntaxTree(source, "CS8603");
+
+        // Assert
+        types[0].Methods[0].ReturnType.Should().Be(expectedReturnType);
     }
 }

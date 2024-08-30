@@ -1,5 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System.Runtime.CompilerServices;
 
 namespace DendroDocs.Tool.Tests;
  
@@ -16,6 +17,8 @@ internal class TestHelper
                                                     .WithAllowUnsafe(true)
                                             )
                                             .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location))
+                                            .AddReferences(MetadataReference.CreateFromFile(typeof(DynamicAttribute).Assembly.Location))
+                                            .AddReferences(MetadataReference.CreateFromFile(typeof(Nullable<>).Assembly.Location))
                                             .AddSyntaxTrees(syntaxTree);
 
         var diagnostics = compilation.GetDiagnostics().Where(d => !ignoreErrorCodes.Contains(d.Id));

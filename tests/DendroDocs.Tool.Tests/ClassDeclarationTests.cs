@@ -1,7 +1,7 @@
 namespace DendroDocs.Tool.Tests;
 
 [TestClass]
-public class ClassModifierTests
+public class ClassDeclarationTests
 {
     [DataRow("class Test {}", Modifier.Internal, DisplayName = "A type description about a class without a modifier should contain the `internal` modifier")]
     [DataRow("public class Test {}", Modifier.Public, DisplayName = "A type description about a `public` class should contain the `public` modifier")]
@@ -46,12 +46,13 @@ public class ClassModifierTests
     public void NestedClassesShouldHaveTheCorrectAccessModifiers(string @class, Modifier modifier)
     {
         // Assign
-        var source = @$"
-        class Test
-        {{
-            {@class}
-        }}
-        ";
+        var source =
+            $$"""
+            class Test
+            {
+                {{@class}}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
@@ -69,15 +70,15 @@ public class ClassModifierTests
     public void NestedClassesShouldHaveTheCorrectModifiers(string @class, Modifier modifier)
     {
         // Assign
-        var source = @$"
-        class Test : ClassB
-        {{
-            {@class}
-        }}
-        class ClassB {{
-            internal class NestedB {{}};
-        }}
-        ";
+        var source = $$"""
+            class Test : ClassB
+            {
+                {{@class}}
+            }
+            class ClassB {
+                internal class NestedB {};
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");

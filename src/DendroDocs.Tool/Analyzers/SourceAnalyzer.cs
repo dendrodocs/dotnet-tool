@@ -27,50 +27,7 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
 
         base.VisitRecordDeclaration(node);
 
-        // Check for parts that are generated and not declared by the author
-        var symbol = semanticModel.GetDeclaredSymbol(node);
-        if (symbol != null)
-        {
-            foreach (var constructor in symbol.Constructors)
-            {
-                var constructorDescription = new ConstructorDescription(symbol.Name);
-
-                foreach (var parameter in constructor.Parameters)
-                {
-                    var parameterDescription = new ParameterDescription(parameter.Type.ToDisplayString(), parameter.Name);
-                    constructorDescription.Parameters.Add(parameterDescription);
-
-                    parameterDescription.HasDefaultValue = parameter.HasExplicitDefaultValue;
-                }
-
-                if (!this.currentType.Constructors.Any(c => c.Parameters.Select(p => p.Type).SequenceEqual(constructorDescription.Parameters.Select(p => p.Type))))
-                {
-                    this.currentType.AddMember(constructorDescription);
-
-                    constructorDescription.Modifiers |= constructor.IsSealed ? Modifier.Sealed : 0;
-
-                    this.EnsureMemberDefaultAccessModifier(constructorDescription);
-                }
-            }
-
-            foreach (var member in symbol.GetMembers())
-            {
-                if (member is IPropertySymbol property)
-                {
-                    if (this.currentType.Properties.Any(p => p.Name == property.Name))
-                    {
-                        continue;
-                    }
-
-                    var propertyDescription = new PropertyDescription(property.Type.ToDisplayString(), property.Name);
-                    this.currentType.AddMember(propertyDescription);
-
-                    propertyDescription.Modifiers |= property.IsReadOnly ? Modifier.Readonly : 0;
-
-                    this.EnsureMemberDefaultAccessModifier(propertyDescription);
-                }
-            }
-        }
+        this.ProcessRecordSymbolInformation(node);
     }
 
     public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
@@ -346,5 +303,86 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
         var value = argument.Expression!.ResolveValue(semanticModel);
 
         return new AttributeArgumentDescription(name, typeDisplayString, value);
+    }
+
+    private void ProcessRecordSymbolInformation(RecordDeclarationSyntax node)
+    {
+        var symbol = semanticModel.GetDeclaredSymbol(node);
+        if (symbol == null) return;
+
+        this.ProcessConstructors(symbol);
+        this.ProcessProperties(symbol);
+    }
+
+    private void ProcessConstructors(INamedTypeSymbol symbol)
+    {
+        if (this.currentType is null) return;
+
+        foreach (var constructor in symbol.Constructors)
+        {
+            var constructorDescription = CreateConstructorDescription(constructor, symbol.Name);
+
+            if (!this.ConstructorAlreadyExists(constructorDescription))
+            {
+                this.currentType.AddMember(constructorDescription);
+                this.EnsureMemberDefaultAccessModifier(constructorDescription);
+            }
+        }
+    }
+
+    private static ConstructorDescription CreateConstructorDescription(IMethodSymbol constructor, string typeName)
+    {
+        var constructorDescription = new ConstructorDescription(typeName);
+
+        foreach (var parameter in constructor.Parameters)
+        {
+            var parameterDescription = new ParameterDescription(parameter.Type.ToDisplayString(), parameter.Name)
+            {
+                HasDefaultValue = parameter.HasExplicitDefaultValue
+            };
+
+            constructorDescription.Parameters.Add(parameterDescription);
+        }
+
+        return constructorDescription;
+    }
+
+    private void ProcessProperties(INamedTypeSymbol symbol)
+    {
+        if (this.currentType is null) return;
+
+        foreach (var member in symbol.GetMembers())
+        {
+            if (member is IPropertySymbol property && !this.PropertyAlreadyExists(property.Name))
+            {
+                var propertyDescription = this.CreatePropertyDescription(property);
+
+                this.currentType.AddMember(propertyDescription);
+            }
+        }
+    }
+
+    private bool ConstructorAlreadyExists(ConstructorDescription constructorDescription)
+    {
+        return this.currentType?.Constructors.Any(c => c.Parameters.Select(p => p.Type).SequenceEqual(constructorDescription.Parameters.Select(p => p.Type))) ?? false;
+    }
+
+    private bool PropertyAlreadyExists(string propertyName)
+    {
+        return this.currentType?.Properties.Any(p => p.Name == propertyName) ?? false;
+    }
+
+    private PropertyDescription CreatePropertyDescription(IPropertySymbol property)
+    {
+        var modifiers = property.IsReadOnly ? Modifier.Readonly : 0;
+
+        var propertyDescription = new PropertyDescription(property.Type.ToDisplayString(), property.Name)
+        {
+            Modifiers = modifiers
+        };
+
+        this.EnsureMemberDefaultAccessModifier(propertyDescription);
+
+        return propertyDescription;
     }
 }

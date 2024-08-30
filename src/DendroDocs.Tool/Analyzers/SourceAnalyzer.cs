@@ -376,6 +376,15 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
     {
         var modifiers = property.IsReadOnly ? Modifier.Readonly : 0;
 
+        modifiers |= property.DeclaredAccessibility switch
+        {
+            Accessibility.Public => Modifier.Public,
+            Accessibility.Protected => Modifier.Protected,
+            Accessibility.Internal => Modifier.Internal,
+            Accessibility.Private => Modifier.Private,
+            _ => 0
+        };
+
         var propertyDescription = new PropertyDescription(property.Type.ToDisplayString(), property.Name)
         {
             Modifiers = modifiers

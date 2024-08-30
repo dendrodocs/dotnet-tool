@@ -105,4 +105,44 @@ public class RecordDeclarationTests
         // Assert
         types[1].Modifiers.Should().HaveFlag(modifier);
     }
+
+    [TestMethod]
+    public void RecordPropertiesShouldHaveCorrectAccessModifiersBasedOnDefault()
+    {
+        // Assign
+        var source =
+            $$"""
+            public record Person(string FirstName, string LastName)
+            {
+            }
+            """;
+
+        // Act
+        var types = TestHelper.VisitSyntaxTree(source, "CS0067");
+
+        // Assert
+        types[0].Properties[0].Modifiers.Should().HaveFlag(Modifier.Protected);
+        types[0].Properties[1].Modifiers.Should().HaveFlag(Modifier.Public);
+        types[0].Properties[2].Modifiers.Should().HaveFlag(Modifier.Public);
+    }
+
+    [TestMethod]
+    public void SealedRecordPropertiesShouldHaveCorrectAccessModifiers()
+    {
+        // Assign
+        var source =
+            $$"""
+            public sealed record Person(string FirstName, string LastName)
+            {
+            }
+            """;
+
+        // Act
+        var types = TestHelper.VisitSyntaxTree(source, "CS0067");
+
+        // Assert
+        types[0].Properties[0].Modifiers.Should().HaveFlag(Modifier.Private);
+        types[0].Properties[1].Modifiers.Should().HaveFlag(Modifier.Public);
+        types[0].Properties[2].Modifiers.Should().HaveFlag(Modifier.Public);
+    }
 }

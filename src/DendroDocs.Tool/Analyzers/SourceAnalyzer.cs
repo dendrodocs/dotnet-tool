@@ -268,18 +268,12 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
     {
         foreach (var attribute in attributes.SelectMany(a => a.Attributes))
         {
-            var attributeDescription = new AttributeDescription(semanticModel.GetTypeDisplayString(attribute), attribute.Name.ToString());
+            var attributeDescription = this.CreateAttributeDescription(attribute);
             attributeDescriptions.Add(attributeDescription);
 
             if (attribute.ArgumentList != null)
             {
-                foreach (var argument in attribute.ArgumentList.Arguments)
-                {
-                    var value = argument.Expression!.ResolveValue(semanticModel);
-
-                    var argumentDescription = new AttributeArgumentDescription(argument.NameEquals?.Name.ToString() ?? argument.Expression.ResolveValue(semanticModel), semanticModel.GetTypeDisplayString(argument.Expression!), value);
-                    attributeDescription.Arguments.Add(argumentDescription);
-                }
+                this.AddAttributeArguments(attribute, attributeDescription);
             }
         }
     }
@@ -313,5 +307,44 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
     private static Modifier ParseModifiers(SyntaxTokenList modifiers)
     {
         return (Modifier)modifiers.Select(m => Enum.TryParse(typeof(Modifier), m.ValueText, true, out var value) ? (int)value : 0).Sum();
+    }
+
+    private AttributeDescription CreateAttributeDescription(AttributeSyntax attribute)
+    {
+        var typeDisplayString = semanticModel.GetTypeDisplayString(attribute);
+        var attributeName = attribute.Name.ToString();
+
+        return new AttributeDescription(typeDisplayString, attributeName);
+    }
+
+    private void AddAttributeArguments(AttributeSyntax attribute, AttributeDescription attributeDescription)
+    {
+        var argumentType = semanticModel.GetTypeInfo(attribute).Type;
+        var ctor = FindMatchingArgumentConstructor(argumentType, attribute.ArgumentList!.Arguments.Count);
+
+        for (int i = 0; i < attribute.ArgumentList.Arguments.Count; i++)
+        {
+            var argument = attribute.ArgumentList.Arguments[i];
+            var argumentDescription = this.CreateArgumentDescription(argument, ctor, i);
+
+            attributeDescription.Arguments.Add(argumentDescription);
+        }
+    }
+
+    private static IMethodSymbol? FindMatchingArgumentConstructor(ITypeSymbol? argumentType, int argumentCount)
+    {
+        return argumentType?
+            .GetMembers(".ctor")
+            .OfType<IMethodSymbol>()
+            .FirstOrDefault(c => c.Parameters.Length == argumentCount);
+    }
+
+    private AttributeArgumentDescription CreateArgumentDescription(AttributeArgumentSyntax argument, IMethodSymbol? ctor, int index)
+    {
+        var name = argument.NameEquals?.Name.ToString() ?? ctor?.Parameters[index].Name ?? argument.Expression.ResolveValue(semanticModel);
+        var typeDisplayString = semanticModel.GetTypeDisplayString(argument.Expression!);
+        var value = argument.Expression!.ResolveValue(semanticModel);
+
+        return new AttributeArgumentDescription(name, typeDisplayString, value);
     }
 }

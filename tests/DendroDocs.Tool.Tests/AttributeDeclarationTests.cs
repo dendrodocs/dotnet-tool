@@ -40,6 +40,54 @@ public class AttributeDeclarationTests
         types[0].Attributes.Should().HaveCount(1);
         types[0].Attributes[0].Should().NotBeNull();
         types[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Attributes[0].Arguments.Should().BeEmpty();
+    }
+
+    [TestMethod]
+    public void ClassWithAttribute_Should_HaveAttributeWithPositionalArgumentInCollection()
+    {
+        // Assign
+        var source =
+            """
+            [System.Obsolete("Message")]
+            class Test
+            {
+            }
+            """;
+
+        // Act
+        var types = TestHelper.VisitSyntaxTree(source);
+
+        // Assert
+        types[0].Attributes[0].Arguments.Should().HaveCount(1);
+        types[0].Attributes[0].Arguments[0].Should().NotBeNull();
+        types[0].Attributes[0].Arguments[0].Name.Should().Be("message");
+        types[0].Attributes[0].Arguments[0].Value.Should().Be("Message");
+    }
+
+    [TestMethod]
+    public void ClassWithAttribute_Should_HaveAttributeWithMultiplePositionalArgumentsInCollection()
+    {
+        // Assign
+        var source =
+            """
+            [System.Obsolete("Message", true)]
+            class Test
+            {
+            }
+            """;
+
+        // Act
+        var types = TestHelper.VisitSyntaxTree(source);
+
+        // Assert
+        types[0].Attributes[0].Arguments.Should().HaveCount(2);
+        types[0].Attributes[0].Arguments[0].Name.Should().Be("message");
+        types[0].Attributes[0].Arguments[0].Type.Should().Be("string");
+        types[0].Attributes[0].Arguments[0].Value.Should().Be("Message");
+        types[0].Attributes[0].Arguments[1].Name.Should().Be("error");
+        types[0].Attributes[0].Arguments[1].Type.Should().Be("bool");
+        types[0].Attributes[0].Arguments[1].Value.Should().Be("true");
     }
 
     [TestMethod]
@@ -63,7 +111,30 @@ public class AttributeDeclarationTests
         types[0].Attributes[0].Arguments[0].Name.Should().Be("DiagnosticId");
         types[0].Attributes[0].Arguments[0].Value.Should().Be("ID");
     }
-    
+
+    [TestMethod]
+    public void ClassWithAttribute_Should_HaveAttributeWithMixedArgumentInCollection()
+    {
+        // Assign
+        var source =
+            """
+            [System.Obsolete("Message", DiagnosticId = "ID")]
+            class Test
+            {
+            }
+            """;
+
+        // Act
+        var types = TestHelper.VisitSyntaxTree(source);
+
+        // Assert
+        types[0].Attributes[0].Arguments.Should().HaveCount(2);
+        types[0].Attributes[0].Arguments[0].Name.Should().Be("message");
+        types[0].Attributes[0].Arguments[0].Value.Should().Be("Message");
+        types[0].Attributes[0].Arguments[1].Name.Should().Be("DiagnosticId");
+        types[0].Attributes[0].Arguments[1].Value.Should().Be("ID");
+    }
+
     [TestMethod]
     public void EnumWithoutAttributes_Should_HaveEmptyAttributeCollection()
     {

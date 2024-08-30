@@ -118,7 +118,7 @@ namespace DendroDocs.Tool.Tests
             var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
 
             // Assert
-            result.Should().Match(@"[{""FullName"":""Test"",""Attributes"":[{""Type"":""System.ObsoleteAttribute"",""Name"":""System.Obsolete"",""Arguments"":[{""Name"":""Reason"",""Type"":""string"",""Value"":""Reason""}]}]}]");
+            result.Should().Match(@"[{""FullName"":""Test"",""Attributes"":[{""Type"":""System.ObsoleteAttribute"",""Name"":""System.Obsolete"",""Arguments"":[{""Name"":""message"",""Type"":""string"",""Value"":""Reason""}]}]}]");
         }
     }
 }

@@ -9,17 +9,19 @@ public static partial class Program
 
     public static Options RuntimeOptions { get; private set; } = new Options();
 
-    public static async Task Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         ParsedResults = Parser.Default.ParseArguments<Options>(args);
 
-        await ParsedResults.MapResult(
+        var resultCode = await ParsedResults.MapResult(
             options => RunApplicationAsync(options),
             errors => Task.FromResult(1)
-        ).ConfigureAwait(false);
+        );
+
+        return resultCode;
     }
 
-    private static async Task RunApplicationAsync(Options options)
+    private static async Task<int> RunApplicationAsync(Options options)
     {
         RuntimeOptions = options;
 
@@ -41,14 +43,39 @@ public static partial class Program
         serializerSettings.Formatting = options.PrettyPrint ? Formatting.Indented : Formatting.None;
 
         var result = JsonConvert.SerializeObject(types.OrderBy(t => t.FullName), serializerSettings);
-
-        await File.WriteAllTextAsync(options.OutputPath!, result).ConfigureAwait(false);
+        File.WriteAllText(options.OutputPath!, result);
 
         if (!options.Quiet)
         {
             Console.WriteLine($"DendroDocs Analysis output generated in {stopwatch.ElapsedMilliseconds}ms at {options.OutputPath}");
-            Console.WriteLine($"{types.Count} types found");
+            Console.WriteLine($"- {types.Count} types found");
         }
+
+        // Validate the JSON output
+        if (JsonValidator.ValidateJson(ref result, out var validationErrors))
+        {
+            if (!options.Quiet)
+            {
+                Console.WriteLine("- JSON is valid according to the schema.");
+            }
+        }
+        else
+        {
+            if (!options.Quiet)
+            {
+                Console.WriteLine();
+            }
+            
+            Console.Error.WriteLine("Generated JSON file is invalid. See errors below:");
+            foreach (var error in validationErrors)
+            {
+                Console.Error.WriteLine($"- {error}");
+            }
+
+            return 1;
+        }
+
+        return 0;
     }
 
     private static async Task AnalyzeWorkspace(List<TypeDescription> types, AnalyzerSetup analysis)
@@ -75,7 +102,7 @@ public static partial class Program
                 Console.WriteLine($"The following errors occured during compilation of project '{project.FilePath}'");
                 foreach (var diagnostic in diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
                 {
-                    Console.WriteLine("- " + diagnostic.ToString());
+                    Console.WriteLine($"- {diagnostic}");
                 }
             }
         }

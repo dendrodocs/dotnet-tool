@@ -28,6 +28,8 @@ jobs:
         env:
           FeedGitHubToken: ${{ secrets.FEED_GITHUB_TOKEN }}
           NuGetApiKey: ${{ secrets.NUGET_API_KEY }}
+      - name: Report Coveralls
+        uses: coverallsapp/github-action@v2
       - name: 'Publish: Artifacts'
         uses: actions/upload-artifact@v3
         with:

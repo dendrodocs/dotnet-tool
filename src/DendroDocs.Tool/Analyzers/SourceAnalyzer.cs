@@ -221,7 +221,7 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
         return true;
     }
 
-    private void ExtractAttributes(SyntaxList<AttributeListSyntax> attributes, List<IAttributeDescription> attributeDescriptions)
+    private void ExtractAttributes(SyntaxList<AttributeListSyntax> attributes, List<AttributeDescription> attributeDescriptions)
     {
         foreach (var attribute in attributes.SelectMany(a => a.Attributes))
         {

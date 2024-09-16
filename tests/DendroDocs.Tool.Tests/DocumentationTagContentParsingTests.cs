@@ -733,8 +733,6 @@ public class DocumentationTagContentParsingTests
             """.UseUnixNewLine());
     }
 
-
-
     [TestMethod]
     public void TagWithNumberedList_Should_HaveNumberedListItemsAsLinesInComment()
     {

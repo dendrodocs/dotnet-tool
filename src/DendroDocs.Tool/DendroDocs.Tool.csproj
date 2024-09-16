@@ -32,14 +32,14 @@
     <EmbeddedResource Include="schema.json" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Using Include="CommandLine" />
-		<Using Include="DendroDocs.Extensions" />
-		<Using Include="DendroDocs.Json" />
-		<Using Include="Microsoft.CodeAnalysis" />
-		<Using Include="Microsoft.CodeAnalysis.CSharp" />
-		<Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
-	</ItemGroup>
+    <ItemGroup>
+        <Using Include="CommandLine" />
+        <Using Include="DendroDocs.Extensions" />
+        <Using Include="DendroDocs.Json" />
+        <Using Include="Microsoft.CodeAnalysis" />
+        <Using Include="Microsoft.CodeAnalysis.CSharp" />
+        <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Buildalyzer.Workspaces" Version="7.0.2" />

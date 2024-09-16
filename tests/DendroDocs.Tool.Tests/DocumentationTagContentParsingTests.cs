@@ -386,7 +386,7 @@ public class DocumentationTagContentParsingTests
     }
 
     [TestMethod]
-    public void TagWithSeeAlso_Should_IgnoreSeeAlso()
+    public void SummaryWithSeeAlso_Should_DisplaySeeAlso()
     {
         // Assign
         var source =
@@ -404,7 +404,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].DocumentationComments!.Summary.Should().BeEmpty();
+        types[0].Methods[0].DocumentationComments!.Summary.Should().Be("See also.");
     }
 
     [TestMethod]

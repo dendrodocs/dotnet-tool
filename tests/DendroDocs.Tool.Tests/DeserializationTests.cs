@@ -1,5 +1,5 @@
 using DendroDocs.Json;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace DendroDocs.Tool.Tests;
 
@@ -13,7 +13,7 @@ public class DeserializationTests
         var json = @"[]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types.Should().BeEmpty();
@@ -26,7 +26,7 @@ public class DeserializationTests
         var json = @"[{""FullName"":""Test""}]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types.Should().HaveCount(1);
@@ -43,7 +43,7 @@ public class DeserializationTests
         var json = @"[{""FullName"":""Test""}]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Fields.Should().BeEmpty();
@@ -78,7 +78,7 @@ public class DeserializationTests
         var json = @$"[{{""Modifiers"":{value},""FullName"":""Test""}}]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Modifiers.Should().Be(modifier);
@@ -91,7 +91,7 @@ public class DeserializationTests
         var json = @"[{""FullName"":""Test"",""Methods"":[{""Name"":""Method""}]}]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods.Should().HaveCount(1);
@@ -107,7 +107,7 @@ public class DeserializationTests
         var json = @"[{""FullName"":""Test"",""Attributes"":[{""Type"":""System.ObsoleteAttribute"",""Name"":""System.Obsolete""}]}]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Attributes.Should().HaveCount(1);
@@ -123,7 +123,7 @@ public class DeserializationTests
         var json = @"[{""FullName"":""Test"",""Attributes"":[{""Type"":""System.ObsoleteAttribute"",""Name"":""System.Obsolete"",""Arguments"":[{""Name"":""\""Reason\"""",""Type"":""string"",""Value"":""Reason""}]}]}]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Attributes[0].Arguments.Should().HaveCount(1);
@@ -150,7 +150,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Parent.Should().Be(types[0].Methods[0]);
@@ -173,7 +173,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Constructors[0].Statements[0].Parent.Should().Be(types[0].Constructors[0]);
@@ -195,7 +195,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<If>();
@@ -220,7 +220,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<If>();
@@ -251,7 +251,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<If>();
@@ -276,7 +276,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<Switch>();
@@ -301,7 +301,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<Switch>();
@@ -328,7 +328,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<Switch>();
@@ -360,7 +360,7 @@ public class DeserializationTests
         }]";
 
         // Act
-        var types = JsonConvert.DeserializeObject<List<TypeDescription>>(json, JsonDefaults.DeserializerSettings());
+        var types = JsonSerializer.Deserialize<List<TypeDescription>>(json, JsonDefaults.DeserializerOptions())!;
 
         // Assert
         types[0].Methods[0].Statements[0].Should().BeOfType<Switch>();

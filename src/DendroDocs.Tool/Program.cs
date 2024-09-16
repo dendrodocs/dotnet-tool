@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace DendroDocs.Tool;
 
@@ -39,10 +39,10 @@ public static partial class Program
         stopwatch.Stop();
 
         // Write analysis 
-        var serializerSettings = JsonDefaults.SerializerSettings();
-        serializerSettings.Formatting = options.PrettyPrint ? Formatting.Indented : Formatting.None;
+        var serializerSettings = JsonDefaults.SerializerOptions();
+        serializerSettings.WriteIndented = options.PrettyPrint;
 
-        var result = JsonConvert.SerializeObject(types.OrderBy(t => t.FullName), serializerSettings);
+        var result = JsonSerializer.Serialize(types.OrderBy(t => t.FullName), serializerSettings);
         File.WriteAllText(options.OutputPath!, result);
 
         if (!options.Quiet)

@@ -1,5 +1,5 @@
 using DendroDocs.Json;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace DendroDocs.Tool.Tests
 {
@@ -15,7 +15,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Be("[]");
@@ -30,7 +30,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Be(@"[{""FullName"":""Test""}]");
@@ -45,7 +45,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Be(@"[{""FullName"":""Test"",""Modifiers"":2}]");
@@ -62,7 +62,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Be(@"[{""FullName"":""Test"",""Methods"":[{""Name"":""Method""}]}]");
@@ -79,7 +79,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Match(@"[{""FullName"":""Test"",""Methods"":[{""Name"":""Method"",""ReturnType"":""int"",*}]}]");
@@ -97,7 +97,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Match(@"[{""FullName"":""Test"",""Attributes"":[{""Type"":""System.ObsoleteAttribute"",""Name"":""System.Obsolete""}]}]");
@@ -115,7 +115,7 @@ namespace DendroDocs.Tool.Tests
             // Act
             var types = TestHelper.VisitSyntaxTree(source);
 
-            var result = JsonConvert.SerializeObject(types, JsonDefaults.SerializerSettings());
+            var result = JsonSerializer.Serialize(types, JsonDefaults.SerializerOptions());
 
             // Assert
             result.Should().Match(@"[{""FullName"":""Test"",""Attributes"":[{""Type"":""System.ObsoleteAttribute"",""Name"":""System.Obsolete"",""Arguments"":[{""Name"":""message"",""Type"":""string"",""Value"":""Reason""}]}]}]");

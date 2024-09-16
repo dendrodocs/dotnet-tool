@@ -72,7 +72,17 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].DocumentationComments!.Example.Should().Be("The following example demonstrates the use of this method.\n\n// Get a new random number\nSampleClass sc = new SampleClass(10);\n\nint random = sc.GetRandomNumber();\n\nConsole.WriteLine(\"Random value: {0}\", random);");
+        types[0].Methods[0].DocumentationComments!.Example.Should().Be(
+            """
+            The following example demonstrates the use of this method.
+
+            // Get a new random number
+            SampleClass sc = new SampleClass(10);
+
+            int random = sc.GetRandomNumber();
+
+            Console.WriteLine("Random value: {0}", random);
+            """.UseUnixNewLine());
     }
 
 
@@ -368,7 +378,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Remarks.Should().Be("A\nB");
+        types[0].DocumentationComments!.Remarks.Should().Be(
+            """
+            A
+            B
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -503,7 +517,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("a\nb");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            a
+            b
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -526,7 +544,12 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("a\nb\nc");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            a
+            b
+            c
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -613,7 +636,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("First item Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            First item
+            Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -637,7 +664,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("* First item\n* Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            * First item
+            * Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -661,7 +692,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("* First item\n* Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            * First item
+            * Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -691,7 +726,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("* Term 1 - First item\n* Term 2 - Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            * Term 1 - First item
+            * Term 2 - Second item
+            """.UseUnixNewLine());
     }
 
 
@@ -717,7 +756,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("1. First item\n2. Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            1. First item
+            2. Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -741,7 +784,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("3. First item\n4. Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            3. First item
+            4. Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -765,7 +812,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("1. First item\n2. Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            1. First item
+            2. Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -795,7 +846,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("1. Term 1 - First item\n2. Term 2 - Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            1. Term 1 - First item
+            2. Term 2 - Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -825,7 +880,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("Term 1\n    First item\nTerm 2\n    Second item");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            Term 1 — First item
+            Term 2 — Second item
+            """.UseUnixNewLine());
     }
 
     [TestMethod]
@@ -863,6 +922,15 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("This is a summary with mixed content.\nA paragraph\nAnother paragraph\nTerm 1\n    First item\nTerm 2\n    Second item\nclass ACodeSample { }\nMore text null and more text");
+        types[0].DocumentationComments!.Summary.Should().Be(
+            """
+            This is a summary with mixed content.
+            A paragraph
+            Another paragraph
+            Term 1 — First item
+            Term 2 — Second item
+            class ACodeSample { }
+            More text null and more text System.Text.Action
+            """.UseUnixNewLine());
     }
 }

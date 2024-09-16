@@ -1,11 +1,15 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace DendroDocs.Tool.Tests;
  
-internal class TestHelper
+internal static partial class TestHelper
 {
+    [GeneratedRegex(@"(\r\n|\r|\n)")]
+    private static partial Regex NewlineChars();
+
     public static IReadOnlyList<TypeDescription> VisitSyntaxTree(string source, params string[] ignoreErrorCodes)
     {
         source.Should().NotBeNullOrWhiteSpace("without source code there is nothing to test");
@@ -33,4 +37,9 @@ internal class TestHelper
 
         return types;
     }
+
+    public static string UseUnixNewLine(this string value) => value.UseSpecificNewLine("\n");
+    public static string UseWindowsNewLine(this string value) => value.UseSpecificNewLine("\r\n");
+    public static string UseEnvironmentNewLine(this string value) => value.UseSpecificNewLine(Environment.NewLine);
+    public static string UseSpecificNewLine(this string value, string specificNewline) => NewlineChars().Replace(value, specificNewline);
 }

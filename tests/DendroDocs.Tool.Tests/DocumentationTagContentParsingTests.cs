@@ -7,14 +7,15 @@ public class DocumentationTagContentParsingTests
     public void Summary_Should_BeRead()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// A summary.
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// A summary.
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -27,14 +28,14 @@ public class DocumentationTagContentParsingTests
     public void Remarks_Should_BeRead()
     {
         // Assign
-        var source = @"
-        /// <remarks>
-        /// A remark.
-        /// </remarks>
-        class Test
-        {
-        }
-        ";
+        var source = """
+            /// <remarks>
+            /// A remark.
+            /// </remarks>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -47,24 +48,25 @@ public class DocumentationTagContentParsingTests
     public void Example_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <example>
-            /// The following example demonstrates the use of this method.
-            /// 
-            /// <code>
-            /// // Get a new random number
-            /// SampleClass sc = new SampleClass(10);
-            /// 
-            /// int random = sc.GetRandomNumber();
-            ///
-            /// Console.WriteLine(""Random value: {0}"", random);
-            /// </code>
-            /// </example>
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <example>
+                /// The following example demonstrates the use of this method.
+                /// 
+                /// <code>
+                /// // Get a new random number
+                /// SampleClass sc = new SampleClass(10);
+                /// 
+                /// int random = sc.GetRandomNumber();
+                ///
+                /// Console.WriteLine("Random value: {0}", random);
+                /// </code>
+                /// </example>
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -78,13 +80,14 @@ public class DocumentationTagContentParsingTests
     public void Exception_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <exception cref=""System.Exception"">An exception.</exception>
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <exception cref="System.Exception">An exception.</exception>
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -101,14 +104,15 @@ public class DocumentationTagContentParsingTests
     public void Exceptions_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <exception cref=""System.Exception"">An exception.</exception>
-            /// <exception cref=""System.StackOverflowException"">Another exception.</exception>
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <exception cref="System.Exception">An exception.</exception>
+                /// <exception cref="System.StackOverflowException">Another exception.</exception>
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -126,13 +130,14 @@ public class DocumentationTagContentParsingTests
     public void Param_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <param name=""param"">This is a param.</param>
-            void Method(string param) {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <param name="param">This is a param.</param>
+                void Method(string param) {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -149,14 +154,15 @@ public class DocumentationTagContentParsingTests
     public void Params_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <param name=""param1"">This is the first parameter.</param>
-            /// <param name=""param2"">This is the second parameter.</param>
-            void Method(string param1, string param2) {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <param name="param1">This is the first parameter.</param>
+                /// <param name="param2">This is the second parameter.</param>
+                void Method(string param1, string param2) {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -174,13 +180,14 @@ public class DocumentationTagContentParsingTests
     public void Permission_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <permission cref=""System.Security.PermissionSet"">A permission.</permission>
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <permission cref="System.Security.PermissionSet">A permission.</permission>
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -197,14 +204,15 @@ public class DocumentationTagContentParsingTests
     public void Permissions_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <permission cref=""System.Security.Permissions.EnvironmentPermission"">A permission.</permission>
-            /// <permission cref=""System.Security.Permissions.FileIOPermission"">Another permission.</permission>
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <permission cref="System.Security.Permissions.EnvironmentPermission">A permission.</permission>
+                /// <permission cref="System.Security.Permissions.FileIOPermission">Another permission.</permission>
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -222,13 +230,14 @@ public class DocumentationTagContentParsingTests
     public void SeeAlso_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <seealso cref=""System.String"" />
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <seealso cref="System.String" />
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -245,14 +254,15 @@ public class DocumentationTagContentParsingTests
     public void SeeAlsos_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <seealso cref=""System.String"" />
-            /// <seealso cref=""System.Object"">See also.</seealso>
-            void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <seealso cref="System.String" />
+                /// <seealso cref="System.Object">See also.</seealso>
+                void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -270,13 +280,14 @@ public class DocumentationTagContentParsingTests
     public void TypeParam_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <typeparam name=""T"">This is a type param.</typeparam>
-            void Method<T>() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <typeparam name="T">This is a type param.</typeparam>
+                void Method<T>() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -293,14 +304,15 @@ public class DocumentationTagContentParsingTests
     public void TypeParams_Should_BeRead()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <typeparam name=""T1"">This is the first type parameter.</typeparam>
-            /// <typeparam name=""T2"">This is the second type parameter.</typeparam>
-            void Method<T1, T2>() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <typeparam name="T1">This is the first type parameter.</typeparam>
+                /// <typeparam name="T2">This is the second type parameter.</typeparam>
+                void Method<T1, T2>() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -318,16 +330,17 @@ public class DocumentationTagContentParsingTests
     public void SummaryWithWhitespace_Should_BeTrimmed()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// 
-        ///   A  
-        ///   
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// 
+            ///   A  
+            ///   
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -340,15 +353,16 @@ public class DocumentationTagContentParsingTests
     public void NonSummaryWithWhitespace_Should_OnlyNonNewLinesBeTrimmed()
     {
         // Assign
-        var source = @"
-        /// <remarks>
-        ///   A  
-        ///   B
-        /// </remarks>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <remarks>
+            ///   A  
+            ///   B
+            /// </remarks>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -361,15 +375,16 @@ public class DocumentationTagContentParsingTests
     public void TagWithSeeAlso_Should_IgnoreSeeAlso()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <summary>
-            /// <seealso cref=""System.Object"">See also.</seealso>
-            /// </summary>
-            public void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <summary>
+                /// <seealso cref="System.Object">See also.</seealso>
+                /// </summary>
+                public void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -382,15 +397,16 @@ public class DocumentationTagContentParsingTests
     public void TagWithSeeAlso_Should_AddToSeeAlsos()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <summary>
-            /// <seealso cref=""System.Object"">See also.</seealso>
-            /// </summary>
-            public void Method() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <summary>
+                /// <seealso cref="System.Object">See also.</seealso>
+                /// </summary>
+                public void Method() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -407,15 +423,16 @@ public class DocumentationTagContentParsingTests
     public void TagWithParamRefName_Should_HaveNameAsComment()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <summary>
-            /// A <paramref name=""b"" /> c
-            /// </summary>
-            public void Method(string b) {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <summary>
+                /// A <paramref name="b" /> c
+                /// </summary>
+                public void Method(string b) {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -428,15 +445,16 @@ public class DocumentationTagContentParsingTests
     public void TagWithTypeParamRefName_Should_HaveNameAsComment()
     {
         // Assign
-        var source = @"
-        class Test
-        {
-            /// <summary>
-            /// A <typeparamref name=""b""/> c
-            /// </summary>
-            public void Method<b>() {}
-        }
-        ";
+        var source =
+            """
+            class Test
+            {
+                /// <summary>
+                /// A <typeparamref name="b"/> c
+                /// </summary>
+                public void Method<b>() {}
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -492,16 +510,17 @@ public class DocumentationTagContentParsingTests
     public void SummaryWithMultipleParas_Should_HaveLinebreakBetweenText()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <para>a</para>
-        /// <para>b</para>
-        /// <para>c</para>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <para>a</para>
+            /// <para>b</para>
+            /// <para>c</para>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -514,14 +533,15 @@ public class DocumentationTagContentParsingTests
     public void TagWithSeeWithInnertext_Should_HaveInnerTextAsComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// A <see cref=""Test"">b</see> c
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// A <see cref="Test">b</see> c
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -534,14 +554,15 @@ public class DocumentationTagContentParsingTests
     public void TagWithSee_Should_HaveCrefAsComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// A <see cref=""b"" /> c
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// A <see cref="b" /> c
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -554,14 +575,15 @@ public class DocumentationTagContentParsingTests
     public void TagWithCode_Should_HaveInnerTextAsComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// A <c>b</c> c
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// A <c>b</c> c
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -574,17 +596,18 @@ public class DocumentationTagContentParsingTests
     public void TagWithInvalidList_Should_HaveListItemsAsInlineTextInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list>
-        /// <item>First item</item>
-        /// <item>Second item</item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list>
+            /// <item>First item</item>
+            /// <item>Second item</item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -597,17 +620,18 @@ public class DocumentationTagContentParsingTests
     public void TagWithBulletList_Should_HaveListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""bullet"">
-        /// <item>First item</item>
-        /// <item>Second item</item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="bullet">
+            /// <item>First item</item>
+            /// <item>Second item</item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -620,17 +644,18 @@ public class DocumentationTagContentParsingTests
     public void TagWithBulletListWithDescriptions_Should_HaveListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""bullet"">
-        /// <item><description>First item</description></item>
-        /// <item><description>Second item</description></item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="bullet">
+            /// <item><description>First item</description></item>
+            /// <item><description>Second item</description></item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -643,23 +668,24 @@ public class DocumentationTagContentParsingTests
     public void TagWithBulletListWithTermsAndDescriptions_Should_HaveListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""bullet"">
-        /// <item>
-        /// <term>Term 1</term>
-        /// <description>First item</description>
-        /// </item>
-        /// <item>
-        /// <term>Term 2</term>
-        /// <description>Second item</description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="bullet">
+            /// <item>
+            /// <term>Term 1</term>
+            /// <description>First item</description>
+            /// </item>
+            /// <item>
+            /// <term>Term 2</term>
+            /// <description>Second item</description>
+            /// </item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -674,17 +700,18 @@ public class DocumentationTagContentParsingTests
     public void TagWithNumberedList_Should_HaveNumberedListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""number"">
-        /// <item>First item</item>
-        /// <item>Second item</item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="number">
+            /// <item>First item</item>
+            /// <item>Second item</item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -697,17 +724,18 @@ public class DocumentationTagContentParsingTests
     public void TagWithNumberedListWithStart_Should_HaveCorrectNumberedListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""number"" start=""3"">
-        /// <item>First item</item>
-        /// <item>Second item</item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="number" start="3">
+            /// <item>First item</item>
+            /// <item>Second item</item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -720,17 +748,18 @@ public class DocumentationTagContentParsingTests
     public void TagWithNumberedListWithDescriptions_Should_HaveNumberedListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""number"">
-        /// <item><description>First item</description></item>
-        /// <item><description>Second item</description></item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="number">
+            /// <item><description>First item</description></item>
+            /// <item><description>Second item</description></item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -743,23 +772,24 @@ public class DocumentationTagContentParsingTests
     public void TagWithNumberedListWithTermsAndDescriptions_Should_HaveNumberedListItemsAsLinesInComment()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""number"">
-        /// <item>
-        /// <term>Term 1</term>
-        /// <description>First item</description>
-        /// </item>
-        /// <item>
-        /// <term>Term 2</term>
-        /// <description>Second item</description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="number">
+            /// <item>
+            /// <term>Term 1</term>
+            /// <description>First item</description>
+            /// </item>
+            /// <item>
+            /// <term>Term 2</term>
+            /// <description>Second item</description>
+            /// </item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -772,23 +802,24 @@ public class DocumentationTagContentParsingTests
     public void TagWithDefinitionListWithTermsAndDescriptions_Should_HaveSeperateLinesWithTermAndDescriptionIndented()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// <list type=""definition"">
-        /// <item>
-        /// <term>Term 1</term>
-        /// <description>First item</description>
-        /// </item>
-        /// <item>
-        /// <term>Term 2</term>
-        /// <description>Second item</description>
-        /// </item>
-        /// </list>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// <list type="definition">
+            /// <item>
+            /// <term>Term 1</term>
+            /// <description>First item</description>
+            /// </item>
+            /// <item>
+            /// <term>Term 2</term>
+            /// <description>Second item</description>
+            /// </item>
+            /// </list>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);
@@ -801,31 +832,32 @@ public class DocumentationTagContentParsingTests
     public void TagWithNestedContent_Should_RenderCorrectly()
     {
         // Assign
-        var source = @"
-        /// <summary>
-        /// This is a summary with mixed content.
-        /// <para>A <see cref=""System.Object"">paragraph</see></para>
-        /// <para>Another <paramref name=""paragraph""/></para>
-        /// <list type=""definition"">
-        /// <item>
-        /// <term>Term 1</term>
-        /// <description>First <typeparamref name=""item""/></description>
-        /// </item>
-        /// <item>
-        /// <term>Term <c>2</c></term>
-        /// <description><para>Second item</para></description>
-        /// </item>
-        /// </list>
-        /// <code>
-        /// class ACodeSample { }
-        /// </code>
-        /// More text <c>null</c> and more text
-        /// <seealso cref=""System.Object""/>
-        /// </summary>
-        class Test
-        {
-        }
-        ";
+        var source =
+            """
+            /// <summary>
+            /// This is a summary with mixed content.
+            /// <para>A <see cref="System.Object">paragraph</see></para>
+            /// <para>Another <paramref name="paragraph"/></para>
+            /// <list type="definition">
+            /// <item>
+            /// <term>Term 1</term>
+            /// <description>First <typeparamref name="item"/></description>
+            /// </item>
+            /// <item>
+            /// <term>Term <c>2</c></term>
+            /// <description><para>Second item</para></description>
+            /// </item>
+            /// </list>
+            /// <code>
+            /// class ACodeSample { }
+            /// </code>
+            /// More text <c>null</c> and more text
+            /// <seealso cref="System.Text.Action"/>
+            /// </summary>
+            class Test
+            {
+            }
+            """;
 
         // Act
         var types = TestHelper.VisitSyntaxTree(source);

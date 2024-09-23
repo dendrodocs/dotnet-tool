@@ -44,7 +44,7 @@
   <ItemGroup>
     <PackageReference Include="Buildalyzer.Workspaces" Version="7.0.2" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="DendroDocs.Shared" Version="0.1.1" />
+    <PackageReference Include="DendroDocs.Shared" Version="0.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />

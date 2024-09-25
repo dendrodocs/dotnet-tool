@@ -71,11 +71,9 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
             return;
         }
 
-        var containingType = semanticModel.GetSymbolInfo(expression).Symbol?.ContainingSymbol.ToDisplayString();
-        if (containingType == null)
-        {
-            containingType = semanticModel.GetSymbolInfo(expression).CandidateSymbols.FirstOrDefault()?.ContainingSymbol.ToDisplayString();
-        }
+        var symbolInfo = semanticModel.GetSymbolInfo(expression);
+        var containingType = symbolInfo.Symbol?.ContainingSymbol ?? symbolInfo.CandidateSymbols.FirstOrDefault()?.ContainingSymbol;
+        var containingTypeAsString = containingType?.ToDisplayString() ?? string.Empty;
 
         var methodName = string.Empty;
 
@@ -89,7 +87,7 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
                 break;
         }
 
-        var invocation = new InvocationDescription(containingType, methodName);
+        var invocation = new InvocationDescription(containingTypeAsString, methodName);
         statements.Add(invocation);
 
         foreach (var argument in node.ArgumentList.Arguments)

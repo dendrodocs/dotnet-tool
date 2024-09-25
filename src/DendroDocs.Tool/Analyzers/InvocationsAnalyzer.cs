@@ -71,25 +71,18 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
             return;
         }
 
-        var containingType = semanticModel.GetSymbolInfo(expression).Symbol?.ContainingSymbol.ToDisplayString();
-        if (containingType == null)
+        var symbolInfo = semanticModel.GetSymbolInfo(expression);
+        var containingType = symbolInfo.Symbol?.ContainingSymbol ?? symbolInfo.CandidateSymbols.FirstOrDefault()?.ContainingSymbol;
+        var containingTypeAsString = containingType?.ToDisplayString() ?? string.Empty;
+
+        var methodName = node.Expression switch
         {
-            containingType = semanticModel.GetSymbolInfo(expression).CandidateSymbols.FirstOrDefault()?.ContainingSymbol.ToDisplayString();
-        }
+            MemberAccessExpressionSyntax m => m.Name.ToString(),
+            IdentifierNameSyntax i => i.Identifier.ValueText,
+            _ => string.Empty
+        };
 
-        var methodName = string.Empty;
-
-        switch (node.Expression)
-        {
-            case MemberAccessExpressionSyntax m:
-                methodName = m.Name.ToString();
-                break;
-            case IdentifierNameSyntax i:
-                methodName = i.Identifier.ValueText;
-                break;
-        }
-
-        var invocation = new InvocationDescription(containingType, methodName);
+        var invocation = new InvocationDescription(containingTypeAsString, methodName);
         statements.Add(invocation);
 
         foreach (var argument in node.ArgumentList.Arguments)

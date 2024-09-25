@@ -2,9 +2,9 @@ namespace DendroDocs.Tool;
 
 public static class SemanticModelExtensions
 {
-    public static string GetTypeDisplayString(this SemanticModel semanticModel, SyntaxNode node)
+    public static string? GetTypeDisplayString(this SemanticModel semanticModel, SyntaxNode node)
     {
-        return semanticModel.GetTypeInfo(node).Type.ToDisplayString();
+        return semanticModel.GetTypeInfo(node).Type?.ToDisplayString();
     }
 
     public static string GetTypeDisplayString(this SemanticModel semanticModel, ExpressionSyntax expression)

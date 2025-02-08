@@ -24,7 +24,7 @@ public class ForEachTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].Statements[0].Should().BeOfType<ForEach>();
+        types[0].Methods[0].Statements[0].ShouldBeOfType<ForEach>();
     }
 
     [TestMethod]
@@ -50,6 +50,6 @@ public class ForEachTests
 
         // Assert
         var forEach = types[0].Methods[0].Statements[0];
-        forEach.Statements.Should().HaveCount(1);
+        forEach.Statements.Count.ShouldBe(1);
     }
 }

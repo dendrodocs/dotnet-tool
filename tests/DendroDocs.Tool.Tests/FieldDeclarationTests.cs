@@ -1,3 +1,5 @@
+using Shouldly.ShouldlyExtensionMethods;
+
 namespace DendroDocs.Tool.Tests;
 
 [TestClass]
@@ -25,7 +27,7 @@ public class FieldDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0169");
 
         // Assert
-        types[0].Fields[0].Modifiers.Should().Be(modifier);
+        types[0].Fields[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -45,7 +47,7 @@ public class FieldDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Fields[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Fields[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [TestMethod]
@@ -63,7 +65,7 @@ public class FieldDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Fields.Should().HaveCount(2);
+        types[0].Fields.Count.ShouldBe(2);
     }
 
     [TestMethod]
@@ -81,8 +83,8 @@ public class FieldDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Fields[0].HasInitializer.Should().BeTrue();
-        types[0].Fields[0].Initializer.Should().Be("value");
+        types[0].Fields[0].HasInitializer.ShouldBeTrue();
+        types[0].Fields[0].Initializer.ShouldBe("value");
     }
 
     [TestMethod]
@@ -101,6 +103,6 @@ public class FieldDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Fields[0].Initializer.Should().Be("value");
+        types[0].Fields[0].Initializer.ShouldBe("value");
     }
 }

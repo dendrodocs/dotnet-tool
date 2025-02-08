@@ -12,7 +12,7 @@ internal static partial class TestHelper
 
     public static IReadOnlyList<TypeDescription> VisitSyntaxTree(string source, params string[] ignoreErrorCodes)
     {
-        source.Should().NotBeNullOrWhiteSpace("without source code there is nothing to test");
+        source.ShouldNotBeNullOrWhiteSpace("without source code there is nothing to test");
 
         var syntaxTree = CSharpSyntaxTree.ParseText(source.Trim());
         var compilation = CSharpCompilation.Create("Test")
@@ -26,7 +26,7 @@ internal static partial class TestHelper
                                             .AddSyntaxTrees(syntaxTree);
 
         var diagnostics = compilation.GetDiagnostics().Where(d => !ignoreErrorCodes.Contains(d.Id));
-        diagnostics.Should().HaveCount(0, "there shoudn't be any compile errors");
+        diagnostics.Count().ShouldBe(0, "there shoudn't be any compile errors");
 
         var semanticModel = compilation.GetSemanticModel(syntaxTree, true);
 

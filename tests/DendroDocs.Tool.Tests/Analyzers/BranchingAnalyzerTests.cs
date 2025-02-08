@@ -23,11 +23,11 @@ public class BranchingAnalyzerTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].Statements[0].Should().BeOfType<If>();
+        types[0].Methods[0].Statements[0].ShouldBeOfType<If>();
 
         var @if = (If)types[0].Methods[0].Statements[0];
-        @if.Sections.Should().HaveCount(sections);
-        @if.Sections.Select(s => s.Condition).Should().Equal(conditions);
+        @if.Sections.Count.ShouldBe(sections);
+        @if.Sections.Select(s => s.Condition).ShouldBe(conditions);
     }
 
     private static IEnumerable<object[]> GetIfStatements()
@@ -58,14 +58,14 @@ public class BranchingAnalyzerTests
         var types = TestHelper.VisitSyntaxTree(source, "CS1522");
 
         // Assert
-        types[0].Methods[0].Statements[0].Should().BeOfType<Switch>();
+        types[0].Methods[0].Statements[0].ShouldBeOfType<Switch>();
 
         var @switch = (Switch)types[0].Methods[0].Statements[0];
-        @switch.Sections.Should().HaveCount(sections);
+        @switch.Sections.Count.ShouldBe(sections);
 
         for (var i = 0; i < @switch.Sections.Count; i++)
         {
-            @switch.Sections[i].Labels.Should().Equal(conditions[i]);
+            @switch.Sections[i].Labels.ShouldBe(conditions[i]);
         }
     }
 
@@ -100,13 +100,15 @@ public class BranchingAnalyzerTests
         var types = TestHelper.VisitSyntaxTree(source, "CS8509");
 
         // Assert
-        types[0].Methods[0].Statements[0].Should().BeOfType<ReturnDescription>();
-        var @switch = types[0].Methods[0].Statements[1].Should().BeOfType<Switch>().Subject;
-        @switch.Sections.Should().HaveCount(sections);
+        types[0].Methods[0].Statements[0].ShouldBeOfType<ReturnDescription>();
+        types[0].Methods[0].Statements[1].ShouldBeOfType<Switch>();
+
+        var @switch = (Switch)types[0].Methods[0].Statements[1];
+        @switch.Sections.Count.ShouldBe(sections);
 
         for (var i = 0; i < @switch.Sections.Count; i++)
         {
-            @switch.Sections[i].Labels.Should().Equal(conditions[i]);
+            @switch.Sections[i].Labels.ShouldBe(conditions[i]);
         }
     }
 

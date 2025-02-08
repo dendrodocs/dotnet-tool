@@ -18,7 +18,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().BeEmpty();
+        types[0].Attributes.ShouldBeEmpty();
     }
     
     [TestMethod]
@@ -37,10 +37,10 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().HaveCount(1);
-        types[0].Attributes[0].Should().NotBeNull();
-        types[0].Attributes[0].Name.Should().Be("System.Obsolete");
-        types[0].Attributes[0].Arguments.Should().BeEmpty();
+        types[0].Attributes.Count.ShouldBe(1);
+        types[0].Attributes[0].ShouldNotBeNull();
+        types[0].Attributes[0].Name.ShouldBe("System.Obsolete");
+        types[0].Attributes[0].Arguments.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -59,10 +59,10 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes[0].Arguments.Should().HaveCount(1);
-        types[0].Attributes[0].Arguments[0].Should().NotBeNull();
-        types[0].Attributes[0].Arguments[0].Name.Should().Be("message");
-        types[0].Attributes[0].Arguments[0].Value.Should().Be("Message");
+        types[0].Attributes[0].Arguments.Count.ShouldBe(1);
+        types[0].Attributes[0].Arguments[0].ShouldNotBeNull();
+        types[0].Attributes[0].Arguments[0].Name.ShouldBe("message");
+        types[0].Attributes[0].Arguments[0].Value.ShouldBe("Message");
     }
 
     [TestMethod]
@@ -81,13 +81,13 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes[0].Arguments.Should().HaveCount(2);
-        types[0].Attributes[0].Arguments[0].Name.Should().Be("message");
-        types[0].Attributes[0].Arguments[0].Type.Should().Be("string");
-        types[0].Attributes[0].Arguments[0].Value.Should().Be("Message");
-        types[0].Attributes[0].Arguments[1].Name.Should().Be("error");
-        types[0].Attributes[0].Arguments[1].Type.Should().Be("bool");
-        types[0].Attributes[0].Arguments[1].Value.Should().Be("true");
+        types[0].Attributes[0].Arguments.Count.ShouldBe(2);
+        types[0].Attributes[0].Arguments[0].Name.ShouldBe("message");
+        types[0].Attributes[0].Arguments[0].Type.ShouldBe("string");
+        types[0].Attributes[0].Arguments[0].Value.ShouldBe("Message");
+        types[0].Attributes[0].Arguments[1].Name.ShouldBe("error");
+        types[0].Attributes[0].Arguments[1].Type.ShouldBe("bool");
+        types[0].Attributes[0].Arguments[1].Value.ShouldBe("true");
     }
 
     [TestMethod]
@@ -106,10 +106,10 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes[0].Arguments.Should().HaveCount(1);
-        types[0].Attributes[0].Arguments[0].Should().NotBeNull();
-        types[0].Attributes[0].Arguments[0].Name.Should().Be("DiagnosticId");
-        types[0].Attributes[0].Arguments[0].Value.Should().Be("ID");
+        types[0].Attributes[0].Arguments.Count.ShouldBe(1);
+        types[0].Attributes[0].Arguments[0].ShouldNotBeNull();
+        types[0].Attributes[0].Arguments[0].Name.ShouldBe("DiagnosticId");
+        types[0].Attributes[0].Arguments[0].Value.ShouldBe("ID");
     }
 
     [TestMethod]
@@ -128,11 +128,11 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes[0].Arguments.Should().HaveCount(2);
-        types[0].Attributes[0].Arguments[0].Name.Should().Be("message");
-        types[0].Attributes[0].Arguments[0].Value.Should().Be("Message");
-        types[0].Attributes[0].Arguments[1].Name.Should().Be("DiagnosticId");
-        types[0].Attributes[0].Arguments[1].Value.Should().Be("ID");
+        types[0].Attributes[0].Arguments.Count.ShouldBe(2);
+        types[0].Attributes[0].Arguments[0].Name.ShouldBe("message");
+        types[0].Attributes[0].Arguments[0].Value.ShouldBe("Message");
+        types[0].Attributes[0].Arguments[1].Name.ShouldBe("DiagnosticId");
+        types[0].Attributes[0].Arguments[1].Value.ShouldBe("ID");
     }
 
     [TestMethod]
@@ -150,7 +150,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().BeEmpty();
+        types[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -169,9 +169,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().HaveCount(1);
-        types[0].Attributes[0].Should().NotBeNull();
-        types[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Attributes.Count.ShouldBe(1);
+        types[0].Attributes[0].ShouldNotBeNull();
+        types[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -189,7 +189,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().BeEmpty();
+        types[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -208,9 +208,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().HaveCount(1);
-        types[0].Attributes[0].Should().NotBeNull();
-        types[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Attributes.Count.ShouldBe(1);
+        types[0].Attributes[0].ShouldNotBeNull();
+        types[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -228,7 +228,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().BeEmpty();
+        types[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -247,9 +247,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Attributes.Should().HaveCount(1);
-        types[0].Attributes[0].Should().NotBeNull();
-        types[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Attributes.Count.ShouldBe(1);
+        types[0].Attributes[0].ShouldNotBeNull();
+        types[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -268,7 +268,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].Attributes.Should().BeEmpty();
+        types[0].Methods[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -288,9 +288,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].Attributes.Should().HaveCount(1);
-        types[0].Methods[0].Attributes[0].Should().NotBeNull();
-        types[0].Methods[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Methods[0].Attributes.Count.ShouldBe(1);
+        types[0].Methods[0].Attributes[0].ShouldNotBeNull();
+        types[0].Methods[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -309,7 +309,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].Parameters[0].Attributes.Should().BeEmpty();
+        types[0].Methods[0].Parameters[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -328,9 +328,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, ignoreErrorCodes: "CS0674");
 
         // Assert
-        types[0].Methods[0].Parameters[0].Attributes.Should().HaveCount(1);
-        types[0].Methods[0].Parameters[0].Attributes[0].Should().NotBeNull();
-        types[0].Methods[0].Parameters[0].Attributes[0].Name.Should().Be("System.ParamArray");
+        types[0].Methods[0].Parameters[0].Attributes.Count.ShouldBe(1);
+        types[0].Methods[0].Parameters[0].Attributes[0].ShouldNotBeNull();
+        types[0].Methods[0].Parameters[0].Attributes[0].Name.ShouldBe("System.ParamArray");
     }
 
     [TestMethod]
@@ -349,7 +349,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Constructors[0].Attributes.Should().BeEmpty();
+        types[0].Constructors[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -369,9 +369,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Constructors[0].Attributes.Should().HaveCount(1);
-        types[0].Constructors[0].Attributes[0].Should().NotBeNull();
-        types[0].Constructors[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Constructors[0].Attributes.Count.ShouldBe(1);
+        types[0].Constructors[0].Attributes[0].ShouldNotBeNull();
+        types[0].Constructors[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -390,7 +390,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Fields[0].Attributes.Should().BeEmpty();
+        types[0].Fields[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -410,9 +410,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Fields[0].Attributes.Should().HaveCount(1);
-        types[0].Fields[0].Attributes[0].Should().NotBeNull();
-        types[0].Fields[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Fields[0].Attributes.Count.ShouldBe(1);
+        types[0].Fields[0].Attributes[0].ShouldNotBeNull();
+        types[0].Fields[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -433,7 +433,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Events[0].Attributes.Should().BeEmpty();
+        types[0].Events[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -455,9 +455,9 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Events[0].Attributes.Should().HaveCount(1);
-        types[0].Events[0].Attributes[0].Should().NotBeNull();
-        types[0].Events[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Events[0].Attributes.Count.ShouldBe(1);
+        types[0].Events[0].Attributes[0].ShouldNotBeNull();
+        types[0].Events[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 
     [TestMethod]
@@ -476,7 +476,7 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties[0].Attributes.Should().BeEmpty();
+        types[0].Properties[0].Attributes.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -496,8 +496,8 @@ public class AttributeDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties[0].Attributes.Should().HaveCount(1);
-        types[0].Properties[0].Attributes[0].Should().NotBeNull();
-        types[0].Properties[0].Attributes[0].Name.Should().Be("System.Obsolete");
+        types[0].Properties[0].Attributes.Count.ShouldBe(1);
+        types[0].Properties[0].Attributes[0].ShouldNotBeNull();
+        types[0].Properties[0].Attributes[0].Name.ShouldBe("System.Obsolete");
     }
 }

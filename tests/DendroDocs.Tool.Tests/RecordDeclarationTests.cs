@@ -22,7 +22,7 @@ public class RecordDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().Be(modifier);
+        types[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -41,7 +41,7 @@ public class RecordDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [DataRow("class NestedTest {}", Modifier.Private, DisplayName = "A type description about a nested class without a modifier should contain the `private` modifier")]
@@ -67,7 +67,7 @@ public class RecordDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[1].Modifiers.Should().Be(modifier);
+        types[1].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class RecordDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[1].Modifiers.Should().HaveFlag(modifier);
+        types[1].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [TestMethod]
@@ -121,9 +121,9 @@ public class RecordDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[0].Properties[0].Modifiers.Should().HaveFlag(Modifier.Protected);
-        types[0].Properties[1].Modifiers.Should().HaveFlag(Modifier.Public);
-        types[0].Properties[2].Modifiers.Should().HaveFlag(Modifier.Public);
+        types[0].Properties[0].Modifiers.ShouldHaveFlag(Modifier.Protected);
+        types[0].Properties[1].Modifiers.ShouldHaveFlag(Modifier.Public);
+        types[0].Properties[2].Modifiers.ShouldHaveFlag(Modifier.Public);
     }
 
     [TestMethod]
@@ -141,8 +141,8 @@ public class RecordDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[0].Properties[0].Modifiers.Should().HaveFlag(Modifier.Private);
-        types[0].Properties[1].Modifiers.Should().HaveFlag(Modifier.Public);
-        types[0].Properties[2].Modifiers.Should().HaveFlag(Modifier.Public);
+        types[0].Properties[0].Modifiers.ShouldHaveFlag(Modifier.Private);
+        types[0].Properties[1].Modifiers.ShouldHaveFlag(Modifier.Public);
+        types[0].Properties[2].Modifiers.ShouldHaveFlag(Modifier.Public);
     }
 }

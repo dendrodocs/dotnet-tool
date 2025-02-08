@@ -16,7 +16,7 @@ public class ClassDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().Be(modifier);
+        types[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -32,7 +32,7 @@ public class ClassDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067", "CS0626", "CS1998");
 
         // Assert
-        types[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [DataRow("class NestedTest {}", Modifier.Private, DisplayName = "A type description about a nested class without a modifier should contain the `private` modifier")]
@@ -58,7 +58,7 @@ public class ClassDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[1].Modifiers.Should().Be(modifier);
+        types[1].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -84,6 +84,6 @@ public class ClassDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[1].Modifiers.Should().HaveFlag(modifier);
+        types[1].Modifiers.ShouldHaveFlag(modifier);
     }
 }

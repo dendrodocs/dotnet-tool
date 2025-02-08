@@ -25,7 +25,7 @@ public class EventDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[0].Events[0].Modifiers.Should().Be(modifier);
+        types[0].Events[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class EventDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067", "CS0626", "CS1998");
 
         // Assert
-        types[0].Events[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Events[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class EventDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0067");
 
         // Assert
-        types[0].Events.Should().HaveCount(2);
+        types[0].Events.Count.ShouldBe(2);
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class EventDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
         
         // Assert
-        types[0].Events[0].HasInitializer.Should().BeTrue();
-        types[0].Events[0].Initializer.Should().Be("() => {}");
+        types[0].Events[0].HasInitializer.ShouldBeTrue();
+        types[0].Events[0].Initializer.ShouldBe("() => {}");
     }
 }

@@ -15,11 +15,14 @@ public class AnalyzerSetupTests
         using var analyzerSetup = AnalyzerSetup.BuildSolutionAnalyzer(solutionFile);
 
         // Assert
-        analyzerSetup.Projects.Should().HaveCount(3);
-        analyzerSetup.Projects.Should().Satisfy(
-            p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"),
-            p => p.FilePath != null && p.FilePath.EndsWith("OtherProject.csproj"),
-            p => p.FilePath != null && p.FilePath.EndsWith("AnotherProject.csproj"));
+        analyzerSetup.Projects.Count().ShouldBe(3);
+
+        var projects = analyzerSetup.Projects.ToList();
+        projects.ShouldSatisfyAllConditions(
+            () => projects[0].FilePath.ShouldEndWith("Project.csproj"),
+            () => projects[1].FilePath.ShouldEndWith("OtherProject.csproj"),
+            () => projects[2].FilePath.ShouldEndWith("AnotherProject.csproj")
+        );
     }
 
     [TestMethod]
@@ -32,11 +35,14 @@ public class AnalyzerSetupTests
         using var analyzerSetup = AnalyzerSetup.BuildSolutionAnalyzer(solutionFile);
 
         // Assert
-        analyzerSetup.Projects.Should().HaveCount(3);
-        analyzerSetup.Projects.Should().Satisfy(
-            p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"),
-            p => p.FilePath != null && p.FilePath.EndsWith("OtherProject.csproj"),
-            p => p.FilePath != null && p.FilePath.EndsWith("AnotherProject.csproj"));
+        analyzerSetup.Projects.Count().ShouldBe(3);
+
+        var projects = analyzerSetup.Projects.ToList();
+        projects.ShouldSatisfyAllConditions(
+            () => projects[0].FilePath.ShouldEndWith("Project.csproj"),
+            () => projects[1].FilePath.ShouldEndWith("OtherProject.csproj"),
+            () => projects[2].FilePath.ShouldEndWith("AnotherProject.csproj")
+        );
     }
 
     [TestMethod]
@@ -50,10 +56,13 @@ public class AnalyzerSetupTests
         using var analyzerSetup = AnalyzerSetup.BuildSolutionAnalyzer(solutionFile, [excludeProjectFile]);
 
         // Assert
-        analyzerSetup.Projects.Should().HaveCount(2);
-        analyzerSetup.Projects.Should().Satisfy(
-            p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"),
-            p => p.FilePath != null && p.FilePath.EndsWith("AnotherProject.csproj"));
+        analyzerSetup.Projects.Count().ShouldBe(2);
+
+        var projects = analyzerSetup.Projects.ToList();
+        projects.ShouldSatisfyAllConditions(
+            () => projects[0].FilePath.ShouldEndWith("Project.csproj"),
+            () => projects[1].FilePath.ShouldEndWith("AnotherProject.csproj")
+        );
     }
 
     [TestMethod]
@@ -68,8 +77,8 @@ public class AnalyzerSetupTests
         using var analyzerSetup = AnalyzerSetup.BuildSolutionAnalyzer(solutionFile, [excludeProjectFile1, excludeProjectFile2]);
 
         // Assert
-        analyzerSetup.Projects.Should().HaveCount(1);
-        analyzerSetup.Projects.Should().Satisfy(p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"));
+        analyzerSetup.Projects.ShouldHaveSingleItem();
+        analyzerSetup.Projects.ShouldAllBe(p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"));
     }
 
     [TestMethod]
@@ -82,8 +91,8 @@ public class AnalyzerSetupTests
         using var analyzerSetup = AnalyzerSetup.BuildProjectAnalyzer(projectFile);
 
         // Assert
-        analyzerSetup.Projects.Should().HaveCount(1);
-        analyzerSetup.Projects.Should().Satisfy(p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"));
+        analyzerSetup.Projects.ShouldHaveSingleItem();
+        analyzerSetup.Projects.ShouldAllBe(p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"));
     }
 
     private static string GetSolutionPath()

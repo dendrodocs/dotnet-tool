@@ -26,7 +26,7 @@ public class MethodDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].Modifiers.Should().Be(modifier);
+        types[0].Methods[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class MethodDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0626", "CS1998");
 
         // Assert
-        types[0].Methods[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Methods[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [DataRow("dynamic", "dynamic", DisplayName = "A method returning `dynamic` should be correctly identified as `dynamic`")]
@@ -82,6 +82,6 @@ public class MethodDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS8603");
 
         // Assert
-        types[0].Methods[0].ReturnType.Should().Be(expectedReturnType);
+        types[0].Methods[0].ReturnType.ShouldBe(expectedReturnType);
     }
 }

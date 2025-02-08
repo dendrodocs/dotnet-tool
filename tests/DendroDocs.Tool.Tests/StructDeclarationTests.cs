@@ -16,7 +16,7 @@ public class StructDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().Be(modifier);
+        types[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -31,7 +31,7 @@ public class StructDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Modifiers.ShouldHaveFlag(modifier);
     }
     
     [DataRow("struct NestedTest {}", Modifier.Private, DisplayName = "A type description about a nested struct without a modifier should contain the `private` modifier")]
@@ -53,7 +53,7 @@ public class StructDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[1].Modifiers.Should().Be(modifier);
+        types[1].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -74,6 +74,6 @@ public class StructDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[1].Modifiers.Should().HaveFlag(modifier);
+        types[1].Modifiers.ShouldHaveFlag(modifier);
     }
 }

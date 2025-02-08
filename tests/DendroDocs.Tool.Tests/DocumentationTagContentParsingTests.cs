@@ -21,7 +21,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("A summary.");
+        types[0].DocumentationComments!.Summary.ShouldBe("A summary.");
     }
 
     [TestMethod]
@@ -41,7 +41,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Remarks.Should().Be("A remark.");
+        types[0].DocumentationComments!.Remarks.ShouldBe("A remark.");
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].DocumentationComments!.Example.Should().Be(
+        types[0].Methods[0].DocumentationComments!.Example.ShouldBe(
             """
             The following example demonstrates the use of this method.
 
@@ -103,11 +103,10 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.Exceptions.Should().HaveCount(1);
-            types[0].Methods[0].DocumentationComments!.Exceptions.Should().Contain("System.Exception", "An exception.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.Exceptions.ShouldHaveSingleItem(),
+            () => types[0].Methods[0].DocumentationComments!.Exceptions.ShouldContainKeyAndValue("System.Exception", "An exception.")
+        );
     }
 
     [TestMethod]
@@ -128,12 +127,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.Exceptions.Should().HaveCount(2);
-            types[0].Methods[0].DocumentationComments!.Exceptions.Should().Contain("System.Exception", "An exception.");
-            types[0].Methods[0].DocumentationComments!.Exceptions.Should().Contain("System.StackOverflowException", "Another exception.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.Exceptions.Count.ShouldBe(2),
+            () => types[0].Methods[0].DocumentationComments!.Exceptions.ShouldContainKeyAndValue("System.Exception", "An exception."),
+            () => types[0].Methods[0].DocumentationComments!.Exceptions.ShouldContainKeyAndValue("System.StackOverflowException", "Another exception.")
+        );
     }
 
     [TestMethod]
@@ -153,11 +151,10 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.Params.Should().HaveCount(1);
-            types[0].Methods[0].DocumentationComments!.Params.Should().Contain("param", "This is a param.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.Params.ShouldHaveSingleItem(),
+            () => types[0].Methods[0].DocumentationComments!.Params.ShouldContainKeyAndValue("param", "This is a param.")
+        );
     }
 
     [TestMethod]
@@ -178,12 +175,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.Params.Should().HaveCount(2);
-            types[0].Methods[0].DocumentationComments!.Params.Should().Contain("param1", "This is the first parameter.");
-            types[0].Methods[0].DocumentationComments!.Params.Should().Contain("param2", "This is the second parameter.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.Params.Count.ShouldBe(2),
+            () => types[0].Methods[0].DocumentationComments!.Params.ShouldContainKeyAndValue("param1", "This is the first parameter."),
+            () => types[0].Methods[0].DocumentationComments!.Params.ShouldContainKeyAndValue("param2", "This is the second parameter.")
+        );
     }
 
     [TestMethod]
@@ -203,11 +199,10 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.Permissions.Should().HaveCount(1);
-            types[0].Methods[0].DocumentationComments!.Permissions.Should().Contain("System.Security.PermissionSet", "A permission.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.Permissions.ShouldHaveSingleItem(),
+            () => types[0].Methods[0].DocumentationComments!.Permissions.ShouldContainKeyAndValue("System.Security.PermissionSet", "A permission.")
+        );
     }
 
     [TestMethod]
@@ -228,12 +223,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.Permissions.Should().HaveCount(2);
-            types[0].Methods[0].DocumentationComments!.Permissions.Should().Contain("System.Security.Permissions.EnvironmentPermission", "A permission.");
-            types[0].Methods[0].DocumentationComments!.Permissions.Should().Contain("System.Security.Permissions.FileIOPermission", "Another permission.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.Permissions.Count.ShouldBe(2),
+            () => types[0].Methods[0].DocumentationComments!.Permissions.ShouldContainKeyAndValue("System.Security.Permissions.EnvironmentPermission", "A permission."),
+            () => types[0].Methods[0].DocumentationComments!.Permissions.ShouldContainKeyAndValue("System.Security.Permissions.FileIOPermission", "Another permission.")
+        );
     }
 
     [TestMethod]
@@ -253,11 +247,10 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().HaveCount(1);
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().Contain("System.String", "System.String");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.ShouldHaveSingleItem(),
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.ShouldContainKeyAndValue("System.String", "System.String")
+        );
     }
 
     [TestMethod]
@@ -278,12 +271,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().HaveCount(2);
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().Contain("System.String", "System.String");
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().Contain("System.Object", "See also.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.Count.ShouldBe(2),
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.ShouldContainKeyAndValue("System.String", "System.String"),
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.ShouldContainKeyAndValue("System.Object", "See also.")
+        );
     }
 
     [TestMethod]
@@ -303,11 +295,10 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.TypeParams.Should().HaveCount(1);
-            types[0].Methods[0].DocumentationComments!.TypeParams.Should().Contain("T", "This is a type param.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.TypeParams.ShouldHaveSingleItem(),
+            () => types[0].Methods[0].DocumentationComments!.TypeParams.ShouldContainKeyAndValue("T", "This is a type param.")
+        );
     }
 
     [TestMethod]
@@ -328,12 +319,11 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.TypeParams.Should().HaveCount(2);
-            types[0].Methods[0].DocumentationComments!.TypeParams.Should().Contain("T1", "This is the first type parameter.");
-            types[0].Methods[0].DocumentationComments!.TypeParams.Should().Contain("T2", "This is the second type parameter.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.TypeParams.Count.ShouldBe(2),
+            () => types[0].Methods[0].DocumentationComments!.TypeParams.ShouldContainKeyAndValue("T1", "This is the first type parameter."),
+            () => types[0].Methods[0].DocumentationComments!.TypeParams.ShouldContainKeyAndValue("T2", "This is the second type parameter.")
+        );
     }
 
     [TestMethod]
@@ -356,7 +346,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("A");
+        types[0].DocumentationComments!.Summary.ShouldBe("A");
     }
 
     [TestMethod]
@@ -378,7 +368,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Remarks.Should().Be(
+        types[0].DocumentationComments!.Remarks.ShouldBe(
             """
             A
             B
@@ -404,7 +394,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].DocumentationComments!.Summary.Should().Be("See also.");
+        types[0].Methods[0].DocumentationComments!.Summary.ShouldBe("See also.");
     }
 
     [TestMethod]
@@ -426,11 +416,10 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().HaveCount(1);
-            types[0].Methods[0].DocumentationComments!.SeeAlsos.Should().Contain("System.Object", "See also.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.Count.ShouldBe(1),
+            () => types[0].Methods[0].DocumentationComments!.SeeAlsos.ShouldContainKeyAndValue("System.Object", "See also.")
+        );
     }
 
     [TestMethod]
@@ -452,7 +441,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].DocumentationComments!.Summary.Should().Be("A b c");
+        types[0].Methods[0].DocumentationComments!.Summary.ShouldBe("A b c");
     }
 
     [TestMethod]
@@ -474,7 +463,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Methods[0].DocumentationComments!.Summary.Should().Be("A b c");
+        types[0].Methods[0].DocumentationComments!.Summary.ShouldBe("A b c");
     }
 
     [TestMethod]
@@ -496,7 +485,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("a b");
+        types[0].DocumentationComments!.Summary.ShouldBe("a b");
     }
 
     [TestMethod]
@@ -517,7 +506,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             a
             b
@@ -544,7 +533,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             a
             b
@@ -570,7 +559,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("A b c");
+        types[0].DocumentationComments!.Summary.ShouldBe("A b c");
     }
 
     [TestMethod]
@@ -591,7 +580,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("A b c");
+        types[0].DocumentationComments!.Summary.ShouldBe("A b c");
     }
 
     [TestMethod]
@@ -612,7 +601,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be("A b c");
+        types[0].DocumentationComments!.Summary.ShouldBe("A b c");
     }
 
     [TestMethod]
@@ -636,7 +625,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             First item
             Second item
@@ -664,7 +653,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             * First item
             * Second item
@@ -692,7 +681,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             * First item
             * Second item
@@ -726,7 +715,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             * Term 1 - First item
             * Term 2 - Second item
@@ -754,7 +743,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             1. First item
             2. Second item
@@ -782,7 +771,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             3. First item
             4. Second item
@@ -810,7 +799,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             1. First item
             2. Second item
@@ -844,7 +833,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             1. Term 1 - First item
             2. Term 2 - Second item
@@ -878,7 +867,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             Term 1 — First item
             Term 2 — Second item
@@ -920,7 +909,7 @@ public class DocumentationTagContentParsingTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].DocumentationComments!.Summary.Should().Be(
+        types[0].DocumentationComments!.Summary.ShouldBe(
             """
             This is a summary with mixed content.
             A paragraph

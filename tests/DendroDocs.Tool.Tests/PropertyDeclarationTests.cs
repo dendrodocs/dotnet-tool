@@ -26,7 +26,7 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source, "CS0169");
 
         // Assert
-        types[0].Properties[0].Modifiers.Should().Be(modifier);
+        types[0].Properties[0].Modifiers.ShouldBe(modifier);
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Properties[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties[0].Modifiers.Should().HaveFlag(modifier);
+        types[0].Properties[0].Modifiers.ShouldHaveFlag(modifier);
     }
 
     [TestMethod]
@@ -87,8 +87,8 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties[0].HasInitializer.Should().BeTrue();
-        types[0].Properties[0].Initializer.Should().Be("value");
+        types[0].Properties[0].HasInitializer.ShouldBeTrue();
+        types[0].Properties[0].Initializer.ShouldBe("value");
     }
 
     [TestMethod]
@@ -108,7 +108,7 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties[0].Initializer.Should().Be("value");
+        types[0].Properties[0].Initializer.ShouldBe("value");
     }
 
     [TestMethod]
@@ -134,9 +134,9 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties.Should().HaveCount(2);
-        types[0].Properties[0].Name.Should().Be("AutoProperty");
-        types[0].Properties[1].Name.Should().Be("ManualProperty");
+        types[0].Properties.Count.ShouldBe(2);
+        types[0].Properties[0].Name.ShouldBe("AutoProperty");
+        types[0].Properties[1].Name.ShouldBe("ManualProperty");
     }
 
     [TestMethod]
@@ -157,9 +157,9 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties.Should().HaveCount(2);
-        types[0].Properties[0].Name.Should().Be("ReadOnlyProperty");
-        types[0].Properties[1].Name.Should().Be("WriteOnlyProperty");
+        types[0].Properties.Count.ShouldBe(2);
+        types[0].Properties[0].Name.ShouldBe("ReadOnlyProperty");
+        types[0].Properties[1].Name.ShouldBe("WriteOnlyProperty");
     }
 
     [TestMethod]
@@ -182,7 +182,7 @@ public class PropertyDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties.Should().HaveCount(1);
-        types[0].Properties[0].Name.Should().Be("ReadOnlyProperty");
+        types[0].Properties.Count.ShouldBe(1);
+        types[0].Properties[0].Name.ShouldBe("ReadOnlyProperty");
     }
 }

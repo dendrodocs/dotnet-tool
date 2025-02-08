@@ -23,7 +23,7 @@ public class PartialClassTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types.Should().HaveCount(1);
+        types.Count.ShouldBe(1);
     }
 
     [TestMethod]
@@ -46,6 +46,6 @@ public class PartialClassTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Properties.Should().HaveCount(2);
+        types[0].Properties.Count.ShouldBe(2);
     }
 }

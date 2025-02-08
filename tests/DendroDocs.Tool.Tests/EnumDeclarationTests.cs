@@ -18,7 +18,7 @@ public class EnumDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().Be(Modifier.Internal);
+        types[0].Modifiers.ShouldBe(Modifier.Internal);
     }
 
     [TestMethod]
@@ -36,7 +36,7 @@ public class EnumDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].Modifiers.Should().Be(Modifier.Public);
+        types[0].Modifiers.ShouldBe(Modifier.Public);
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class EnumDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].EnumMembers[0].Modifiers.Should().Be(Modifier.Public);
+        types[0].EnumMembers[0].Modifiers.ShouldBe(Modifier.Public);
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class EnumDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].EnumMembers[0].Name.Should().Be("Value");
+        types[0].EnumMembers[0].Name.ShouldBe("Value");
     }
 
     [TestMethod]
@@ -93,6 +93,6 @@ public class EnumDeclarationTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        types[0].EnumMembers[0].Value.Should().Be("42");
+        types[0].EnumMembers[0].Value.ShouldBe("42");
     }
 }

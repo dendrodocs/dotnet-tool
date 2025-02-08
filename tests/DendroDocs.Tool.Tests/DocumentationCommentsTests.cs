@@ -26,12 +26,11 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].DocumentationComments?.Summary.Should().Be("This is a Test Class.");
-            types[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].DocumentationComments?.Example.Should().Be("This is an example.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].DocumentationComments?.Summary.ShouldBe("This is a Test Class."),
+            () => types[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].DocumentationComments?.Example.ShouldBe("This is an example.")
+        );
     }
 
     [TestMethod]
@@ -63,14 +62,14 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Events[0].DocumentationComments?.Summary.Should().Be("This is a Test Event.");
-            types[0].Events[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Events[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Events[0].DocumentationComments?.Value.Should().Be("This is the value.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Events[0].DocumentationComments?.Summary.ShouldBe("This is a Test Event."),
+            () => types[0].Events[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Events[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Events[0].DocumentationComments?.Value.ShouldBe("This is the value.")
+        );
     }
+    
 
     [TestMethod]
     public void MultipleEventDeclarationsWithComments_Should_HaveDocumentationParsedForEveryEvent()
@@ -101,18 +100,17 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Events[0].DocumentationComments?.Summary.Should().Be("These are Test Events.");
-            types[0].Events[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Events[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Events[0].DocumentationComments?.Value.Should().Be("This is the value.");
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Events[0].DocumentationComments?.Summary.ShouldBe("These are Test Events."),
+            () => types[0].Events[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Events[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Events[0].DocumentationComments?.Value.ShouldBe("This is the value."),
 
-            types[0].Events[1].DocumentationComments?.Summary.Should().Be("These are Test Events.");
-            types[0].Events[1].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Events[1].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Events[1].DocumentationComments?.Value.Should().Be("This is the value.");
-        }
+            () => types[0].Events[1].DocumentationComments?.Summary.ShouldBe("These are Test Events."),
+            () => types[0].Events[1].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Events[1].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Events[1].DocumentationComments?.Value.ShouldBe("This is the value.")
+        );
     }
 
     [TestMethod]
@@ -142,13 +140,12 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Fields[0].DocumentationComments?.Summary.Should().Be("This is a Test Field.");
-            types[0].Fields[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Fields[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Fields[0].DocumentationComments?.Value.Should().Be("This is the value.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Fields[0].DocumentationComments?.Summary.ShouldBe("This is a Test Field."),
+            () => types[0].Fields[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Fields[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Fields[0].DocumentationComments?.Value.ShouldBe("This is the value.")
+        );
     }
 
     [TestMethod]
@@ -178,18 +175,17 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Fields[0].DocumentationComments?.Summary.Should().Be("These are Test Fields.");
-            types[0].Fields[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Fields[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Fields[0].DocumentationComments?.Value.Should().Be("This is the value.");
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Fields[0].DocumentationComments?.Summary.ShouldBe("These are Test Fields."),
+            () => types[0].Fields[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Fields[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Fields[0].DocumentationComments?.Value.ShouldBe("This is the value."),
 
-            types[0].Fields[1].DocumentationComments?.Summary.Should().Be("These are Test Fields.");
-            types[0].Fields[1].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Fields[1].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Fields[1].DocumentationComments?.Value.Should().Be("This is the value.");
-        }
+            () => types[0].Fields[1].DocumentationComments?.Summary.ShouldBe("These are Test Fields."),
+            () => types[0].Fields[1].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Fields[1].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Fields[1].DocumentationComments?.Value.ShouldBe("This is the value.")
+        );
     }
 
     [TestMethod]
@@ -215,12 +211,11 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].DocumentationComments?.Summary.Should().Be("This is a Test Interface.");
-            types[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].DocumentationComments?.Example.Should().Be("This is an example.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].DocumentationComments?.Summary.ShouldBe("This is a Test Interface."),
+            () => types[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].DocumentationComments?.Example.ShouldBe("This is an example.")
+        );
     }
 
     [TestMethod]
@@ -246,12 +241,11 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].DocumentationComments?.Summary.Should().Be("This is a Test Enum.");
-            types[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].DocumentationComments?.Example.Should().Be("This is an example.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].DocumentationComments?.Summary.ShouldBe("This is a Test Enum."),
+            () => types[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].DocumentationComments?.Example.ShouldBe("This is an example.")
+        );
     }
 
     [TestMethod]
@@ -277,12 +271,11 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].DocumentationComments?.Summary.Should().Be("This is a Test Struct.");
-            types[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].DocumentationComments?.Example.Should().Be("This is an example.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].DocumentationComments?.Summary.ShouldBe("This is a Test Struct."),
+            () => types[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].DocumentationComments?.Example.ShouldBe("This is an example.")
+        );
     }
 
     [TestMethod]
@@ -312,13 +305,12 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Methods[0].DocumentationComments?.Summary.Should().Be("This is a Test Method.");
-            types[0].Methods[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Methods[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Methods[0].DocumentationComments?.Returns.Should().Be("Returns a string.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Methods[0].DocumentationComments?.Summary.ShouldBe("This is a Test Method."),
+            () => types[0].Methods[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Methods[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Methods[0].DocumentationComments?.Returns.ShouldBe("Returns a string.")
+        );
     }
 
     [TestMethod]
@@ -348,13 +340,12 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Constructors[0].DocumentationComments?.Summary.Should().Be("This is a Test Constructor.");
-            types[0].Constructors[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Constructors[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Constructors[0].DocumentationComments?.Returns.Should().Be("Returns a string.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Constructors[0].DocumentationComments?.Summary.ShouldBe("This is a Test Constructor."),
+            () => types[0].Constructors[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Constructors[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Constructors[0].DocumentationComments?.Returns.ShouldBe("Returns a string.")
+        );
     }
 
     [TestMethod]
@@ -384,12 +375,11 @@ public class DocumentationCommentsTests
         var types = TestHelper.VisitSyntaxTree(source);
 
         // Assert
-        using (new AssertionScope())
-        {
-            types[0].Properties[0].DocumentationComments?.Summary.Should().Be("This is a Test Property.");
-            types[0].Properties[0].DocumentationComments?.Remarks.Should().Be("This is a remark.");
-            types[0].Properties[0].DocumentationComments?.Example.Should().Be("This is an example.");
-            types[0].Properties[0].DocumentationComments?.Value.Should().Be("This is the value.");
-        }
+        types.ShouldSatisfyAllConditions(
+            () => types[0].Properties[0].DocumentationComments?.Summary.ShouldBe("This is a Test Property."),
+            () => types[0].Properties[0].DocumentationComments?.Remarks.ShouldBe("This is a remark."),
+            () => types[0].Properties[0].DocumentationComments?.Example.ShouldBe("This is an example."),
+            () => types[0].Properties[0].DocumentationComments?.Value.ShouldBe("This is the value.")
+        );
     }
 }

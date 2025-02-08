@@ -18,8 +18,8 @@ public class JsonValidationTests
         var isValid = JsonValidator.ValidateJson(ref content, out IList<string> validationErrors);
 
         // Assert
-        isValid.Should().BeTrue();
-        validationErrors.Should().BeEmpty();
+        isValid.ShouldBeTrue();
+        validationErrors.ShouldBeEmpty();
     }
 
     [TestMethod]
@@ -37,8 +37,8 @@ public class JsonValidationTests
         var isValid = JsonValidator.ValidateJson(ref content, out IList<string> validationErrors);
 
         // Assert
-        isValid.Should().BeFalse();
-        validationErrors.Should().NotBeEmpty();
+        isValid.ShouldBeFalse();
+        validationErrors.ShouldNotBeEmpty();
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class JsonValidationTests
         var isValid = JsonValidator.ValidateJson(ref content, out IList<string> validationErrors);
 
         // Assert
-        isValid.Should().BeFalse();
-        validationErrors.Should().NotBeEmpty();
+        isValid.ShouldBeFalse();
+        validationErrors.ShouldNotBeEmpty();
     }
 
     [TestMethod]
@@ -74,9 +74,11 @@ public class JsonValidationTests
         var isValid = JsonValidator.ValidateJson(ref content, out IList<string> validationErrors);
 
         // Assert
-        isValid.Should().BeFalse();
-        validationErrors.Should().ContainSingle()
-            .Which.Should().StartWith("Exception during validation");
+        isValid.ShouldBeFalse();
+        validationErrors.ShouldSatisfyAllConditions(
+            () => validationErrors.Count.ShouldBe(1),
+            () => validationErrors[0].ShouldStartWith("Exception during validation")
+        );
     }
 
     [TestMethod]
@@ -97,8 +99,10 @@ public class JsonValidationTests
         var isValid = JsonValidator.ValidateJson(ref content, out IList<string> validationErrors);
 
         // Assert
-        isValid.Should().BeFalse();
-        validationErrors.Should().ContainSingle()
-            .Which.Should().Contain("Unexpected");
+        isValid.ShouldBeFalse();
+        validationErrors.ShouldSatisfyAllConditions(
+            () => validationErrors.Count.ShouldBe(1),
+            () => validationErrors[0].ShouldContain("Unexpected")
+        );
     }
 }

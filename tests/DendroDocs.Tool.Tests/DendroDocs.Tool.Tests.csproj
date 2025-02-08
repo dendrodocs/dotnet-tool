@@ -16,16 +16,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Include="FluentAssertions" />
-    <Using Include="FluentAssertions.Execution" />
+    <Using Include="Shouldly" />
+    <Using Include="Shouldly.ShouldlyExtensionMethods" />
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="7.0.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.4" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Shouldly" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

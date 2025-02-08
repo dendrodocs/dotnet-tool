@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSTest.Sdk/3.5.2">
+﻿<Project Sdk="MSTest.Sdk/3.7.3">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.11.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.12.0" />
   </ItemGroup>
 
   <ItemGroup>

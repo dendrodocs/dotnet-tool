@@ -9,7 +9,7 @@ root = true
 [*] 
 indent_style = space
 
-[*.{csproj,xml,runsettings}] 
+[*.{csproj,xml,runsettings,props,config}] 
 indent_style = space
 indent_size = 2
 tab_size = 2

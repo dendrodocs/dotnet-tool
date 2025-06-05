@@ -18,6 +18,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Version>0.1.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -27,14 +29,14 @@
     <EmbeddedResource Include="schema.json" />
   </ItemGroup>
 
-    <ItemGroup>
-        <Using Include="CommandLine" />
-        <Using Include="DendroDocs.Extensions" />
-        <Using Include="DendroDocs.Json" />
-        <Using Include="Microsoft.CodeAnalysis" />
-        <Using Include="Microsoft.CodeAnalysis.CSharp" />
-        <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
-    </ItemGroup>
+  <ItemGroup>
+    <Using Include="CommandLine" />
+    <Using Include="DendroDocs.Extensions" />
+    <Using Include="DendroDocs.Json" />
+    <Using Include="Microsoft.CodeAnalysis" />
+    <Using Include="Microsoft.CodeAnalysis.CSharp" />
+    <Using Include="Microsoft.CodeAnalysis.CSharp.Syntax" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Buildalyzer.Workspaces" />
@@ -44,6 +46,11 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png" Pack="true" PackagePath="\" />
+    <None Update="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

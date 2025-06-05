@@ -1,6 +1,6 @@
 # DendroDocs.Tool
 
-[![Nuget][NUGET_BADGE]][NUGET_FEED] [![Coverage Status](https://coveralls.io/repos/github/dendrodocs/dotnet-tool/badge.svg?branch=main)](https://coveralls.io/github/dendrodocs/dotnet-tool?branch=main)
+[![NuGet][NUGET_BADGE]][NUGET_FEED] [![Coverage Status][COVERALLS_BADGE]][COVERALLS_LINK]
 
 **DendroDocs.Tool** is the successor to the [Living Documentation](https://github.com/eNeRGy164/LivingDocumentation) Analyzer, providing a solution for analyzing dotnet projects and generating detailed JSON outputs.
 This tool is a key component of the DendroDocs ecosystem, designed to bridge the gap between evolving code and up-to-date documentation.
@@ -47,7 +47,9 @@ Contributions are welcome! Please feel free to create [issues](https://github.co
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](./LICENSE).
 
 [NUGET_BADGE]: https://img.shields.io/nuget/v/DendroDocs.Tool.svg?style=plastic
 [NUGET_FEED]: https://www.nuget.org/packages/DendroDocs.Tool/
+[COVERALLS_BADGE]: https://coveralls.io/repos/github/dendrodocs/dotnet-tool/badge.svg?branch=main
+[COVERALLS_LINK]: https://coveralls.io/github/dendrodocs/dotnet-tool?branch=main

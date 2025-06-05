@@ -106,6 +106,7 @@ class Build : NukeBuild
         {
             DotNetRestore(_ => _
                 .SetProjectFile(Solution)
+                .EnableLockedMode()
             );
         });
 

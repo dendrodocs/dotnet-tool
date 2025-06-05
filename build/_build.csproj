@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageDownload Include="GitVersion.Tool" Version="[6.0.2]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.3.8]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.4.7]" />
     <PackageReference Include="Nuke.Common" />
     <PackageReference Include="Nuke.Components" />
   </ItemGroup>

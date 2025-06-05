@@ -15,14 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.4" PrivateAssets="all">
+    <PackageReference Include="coverlet.collector" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Shouldly" Version="4.3.0" />
+    <PackageReference Include="Shouldly" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 
   <ItemGroup>

@@ -530,6 +530,7 @@
           "DendroDocs.Shared": "[0.4.2, )",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "[4.14.0, )",
           "Microsoft.CodeAnalysis.VisualBasic.Workspaces": "[4.14.0, )",
+          "Microsoft.Extensions.FileSystemGlobbing": "[8.0.0, )",
           "Newtonsoft.Json.Schema": "[4.0.1, )"
         }
       },
@@ -632,6 +633,12 @@
           "System.Reflection.Metadata": "9.0.0",
           "System.Threading.Channels": "7.0.0"
         }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "OK+670i7esqlQrPjdIKRbsyMCe9g5kSLpRRQGSr4Q58AOYEe/hCnfLZprh7viNisSUUQZmMrbbuDaIrP+V1ebQ=="
       },
       "Newtonsoft.Json.Schema": {
         "type": "CentralTransitive",

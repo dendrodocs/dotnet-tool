@@ -30,6 +30,37 @@ internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> 
         base.VisitObjectCreationExpression(node);
     }
 
+    public override void VisitImplicitObjectCreationExpression(ImplicitObjectCreationExpressionSyntax node)
+    {
+        // For implicit object creation (new()), get the type from the semantic model
+        var typeInfo = semanticModel.GetTypeInfo(node);
+        string containingType = typeInfo.Type?.ToDisplayString() ?? string.Empty;
+        string typeName = typeInfo.Type?.Name ?? "object";
+
+        var invocation = new InvocationDescription(containingType, typeName);
+        statements.Add(invocation);
+
+        if (node.ArgumentList != null)
+        {
+            foreach (var argument in node.ArgumentList.Arguments)
+            {
+                var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(argument.Expression), argument.Expression.ToString());
+                invocation.Arguments.Add(argumentDescription);
+            }
+        }
+
+        if (node.Initializer != null)
+        {
+            foreach (var expression in node.Initializer.Expressions)
+            {
+                var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(expression), expression.ToString());
+                invocation.Arguments.Add(argumentDescription);
+            }
+        }
+
+        base.VisitImplicitObjectCreationExpression(node);
+    }
+
     public override void VisitSwitchStatement(SwitchStatementSyntax node)
     {
         var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);

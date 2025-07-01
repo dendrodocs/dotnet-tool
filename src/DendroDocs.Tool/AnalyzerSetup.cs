@@ -86,59 +86,70 @@ public sealed class AnalyzerSetup : IDisposable
             return Directory.GetFiles(folderPathOrPattern, "*.csproj", SearchOption.AllDirectories);
         }
 
-        // Treat as a glob pattern
+        // Handle glob patterns
         var matcher = new Matcher();
         
-        // If the pattern doesn't contain wildcards, assume it's a folder and add /**/*.csproj
+        // If the pattern doesn't contain wildcards, assume it's a folder that doesn't exist
         if (!folderPathOrPattern.Contains('*') && !folderPathOrPattern.Contains('?'))
         {
-            var basePath = folderPathOrPattern;
-            if (!basePath.EndsWith(Path.DirectorySeparatorChar))
-            {
-                basePath += Path.DirectorySeparatorChar;
-            }
-            matcher.AddInclude($"**/*.csproj");
-            
-            // Use current directory as base if path doesn't exist as a directory
-            var baseDirectory = Directory.Exists(folderPathOrPattern) ? folderPathOrPattern : Directory.GetCurrentDirectory();
-            var result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(baseDirectory)));
-            return result.Files.Select(f => Path.Combine(baseDirectory, f.Path));
+            throw new DirectoryNotFoundException($"Folder not found: {folderPathOrPattern}");
+        }
+
+        // Handle as a glob pattern
+        string baseDirectory;
+        string pattern;
+        
+        // Check if pattern is absolute or relative
+        if (Path.IsPathRooted(folderPathOrPattern))
+        {
+            // Absolute path - extract base directory and relative pattern
+            var parts = SplitAbsolutePattern(folderPathOrPattern);
+            baseDirectory = parts.BaseDirectory;
+            pattern = parts.Pattern;
         }
         else
         {
-            // Handle as a true glob pattern
-            matcher.AddInclude(folderPathOrPattern);
-            
-            // Determine base directory from the pattern
-            var baseDirectory = GetBasDirectoryFromPattern(folderPathOrPattern);
-            var result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(baseDirectory)));
-            return result.Files.Select(f => Path.Combine(baseDirectory, f.Path));
+            // Relative path
+            baseDirectory = Directory.GetCurrentDirectory();
+            pattern = folderPathOrPattern;
         }
+
+        matcher.AddInclude(pattern);
+        var result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(baseDirectory)));
+        return result.Files.Select(f => Path.Combine(baseDirectory, f.Path));
     }
 
-    private static string GetBasDirectoryFromPattern(string pattern)
+    private static (string BaseDirectory, string Pattern) SplitAbsolutePattern(string absolutePattern)
     {
-        // Find the first occurrence of wildcards and take the directory part before it
+        // Find the first wildcard
         var wildcardIndex = Math.Min(
-            pattern.IndexOf('*') >= 0 ? pattern.IndexOf('*') : int.MaxValue,
-            pattern.IndexOf('?') >= 0 ? pattern.IndexOf('?') : int.MaxValue
+            absolutePattern.IndexOf('*') >= 0 ? absolutePattern.IndexOf('*') : int.MaxValue,
+            absolutePattern.IndexOf('?') >= 0 ? absolutePattern.IndexOf('?') : int.MaxValue
         );
         
         if (wildcardIndex == int.MaxValue)
         {
-            // No wildcards, use the pattern as is if it's a directory
-            return Directory.Exists(pattern) ? pattern : Directory.GetCurrentDirectory();
+            // No wildcards found, treat as directory
+            return (absolutePattern, "**/*.csproj");
         }
         
-        var basePart = pattern.Substring(0, wildcardIndex);
+        // Find the last directory separator before the wildcard
+        var basePart = absolutePattern.Substring(0, wildcardIndex);
         var lastSeparator = basePart.LastIndexOf(Path.DirectorySeparatorChar);
         
         if (lastSeparator >= 0)
         {
             var baseDir = basePart.Substring(0, lastSeparator);
-            return Directory.Exists(baseDir) ? baseDir : Directory.GetCurrentDirectory();
+            var relativePattern = absolutePattern.Substring(lastSeparator + 1);
+            
+            // Ensure base directory exists
+            if (Directory.Exists(baseDir))
+            {
+                return (baseDir, relativePattern);
+            }
         }
         
-        return Directory.GetCurrentDirectory();
+        // Fallback to current directory
+        return (Directory.GetCurrentDirectory(), absolutePattern);
     }
 }

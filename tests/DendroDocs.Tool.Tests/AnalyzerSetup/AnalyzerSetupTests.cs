@@ -147,6 +147,37 @@ public class AnalyzerSetupTests
         analyzerSetup.Projects.ShouldAllBe(p => p.FilePath != null && p.FilePath.EndsWith("Project.csproj"));
     }
 
+    [TestMethod]
+    public void GlobPatternShouldFindMatchingProjects()
+    {
+        // Arrange
+        var basePath = GetBasePath();
+        var originalDir = Directory.GetCurrentDirectory();
+
+        try
+        {
+            // Change to the test base directory to make relative patterns work
+            Directory.SetCurrentDirectory(basePath);
+            var globPattern = "AnalyzerSetupVerification/**/*.csproj";
+
+            // Act
+            using var analyzerSetup = AnalyzerSetup.BuildFolderAnalyzer(globPattern);
+
+            // Assert
+            // Should find the 3 non-test projects that match the pattern (excludes TestProject due to test references)
+            analyzerSetup.Projects.Count().ShouldBe(3);
+            
+            var projectPaths = analyzerSetup.Projects.Select(p => p.FilePath).ToList();
+            projectPaths.ShouldContain(path => path != null && path.EndsWith("Project.csproj"));
+            projectPaths.ShouldContain(path => path != null && path.EndsWith("OtherProject.csproj"));
+            projectPaths.ShouldContain(path => path != null && path.EndsWith("AnotherProject.csproj"));
+        }
+        finally
+        {
+            Directory.SetCurrentDirectory(originalDir);
+        }
+    }
+
     private static string GetSolutionPath()
     {
         var currentDirectory = Directory.GetCurrentDirectory().AsSpan();

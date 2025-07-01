@@ -10,7 +10,7 @@ public partial class Program
         [Option("project", Required = true, SetName = "project", HelpText = "The project to analyze.")]
         public string? ProjectPath { get; set; }
 
-        [Option("folder", Required = true, SetName = "folder", HelpText = "The folder to search for projects, or a glob pattern to match project files.")]
+        [Option("folder", Required = true, SetName = "folder", HelpText = "The folder to search for projects recursively, or a glob pattern to match specific project files (e.g., 'src/**/*.csproj').")]
         public string? FolderPath { get; set; }
 
         [Option("exclude", Required = false, Separator = ',', HelpText = "Any projects to exclude from analysis.")]

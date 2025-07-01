@@ -10,7 +10,10 @@ public partial class Program
         [Option("project", Required = true, SetName = "project", HelpText = "The project to analyze.")]
         public string? ProjectPath { get; set; }
 
-        [Option("exclude", Required = false, SetName = "solution", Separator = ',', HelpText = "Any projects to exclude from analysis.")]
+        [Option("folder", Required = true, SetName = "folder", HelpText = "The folder to search for projects, or a glob pattern to match project files.")]
+        public string? FolderPath { get; set; }
+
+        [Option("exclude", Required = false, Separator = ',', HelpText = "Any projects to exclude from analysis.")]
         public IEnumerable<string> ExcludedProjectPaths { get; set; } = [];
 
         [Option("output", Required = true, HelpText = "The location of the output.")]

@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.Operations;
+
 namespace DendroDocs.Tool;
 
 internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> statements) : CSharpSyntaxWalker
@@ -13,7 +15,11 @@ internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> st
         ifSection.Condition = node.Condition.ToString();
 
         var ifInvocationAnalyzer = new InvocationsAnalyzer(semanticModel, ifSection.Statements);
-        ifInvocationAnalyzer.Visit(node.Statement);
+        var statementOperation = semanticModel.GetOperation(node.Statement);
+        if (statementOperation != null)
+        {
+            ifInvocationAnalyzer.Visit(statementOperation);
+        }
 
         var elseNode = node.Else;
         while (elseNode != null)
@@ -22,7 +28,11 @@ internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> st
             ifStatement.Sections.Add(section);
 
             var elseInvocationAnalyzer = new InvocationsAnalyzer(semanticModel, section.Statements);
-            elseInvocationAnalyzer.Visit(elseNode.Statement);
+            var elseStatementOperation = semanticModel.GetOperation(elseNode.Statement);
+            if (elseStatementOperation != null)
+            {
+                elseInvocationAnalyzer.Visit(elseStatementOperation);
+            }
 
             if (elseNode.Statement.IsKind(SyntaxKind.IfStatement))
             {
@@ -53,7 +63,11 @@ internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> st
             switchSection.Labels.AddRange(section.Labels.Select(l => Label(l)));
 
             var invocationAnalyzer = new InvocationsAnalyzer(semanticModel, switchSection.Statements);
-            invocationAnalyzer.Visit(section);
+            var sectionOperation = semanticModel.GetOperation(section);
+            if (sectionOperation != null)
+            {
+                invocationAnalyzer.Visit(sectionOperation);
+            }
         }
     }
 
@@ -73,7 +87,11 @@ internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> st
             switchSection.Labels.Add(label);
 
             var invocationAnalyzer = new InvocationsAnalyzer(semanticModel, switchSection.Statements);
-            invocationAnalyzer.Visit(arm.Expression);
+            var expressionOperation = semanticModel.GetOperation(arm.Expression);
+            if (expressionOperation != null)
+            {
+                invocationAnalyzer.Visit(expressionOperation);
+            }
         }
     }
 
@@ -87,5 +105,63 @@ internal class BranchingAnalyzer(SemanticModel semanticModel, List<Statement> st
             DefaultSwitchLabelSyntax @default => @default.Keyword.ToString(),
             _ => throw new ArgumentOutOfRangeException(nameof(label)),
         };
+    }
+
+    // Operation-based methods for the new OperationWalker approach
+    public void VisitSwitchOperation(ISwitchOperation operation)
+    {
+        var switchStatement = new Switch();
+        statements.Add(switchStatement);
+
+        switchStatement.Expression = operation.Value.Syntax.ToString();
+
+        foreach (var @case in operation.Cases)
+        {
+            var switchSection = new SwitchSection();
+            switchStatement.Sections.Add(switchSection);
+
+            // Add labels for this case
+            foreach (var clause in @case.Clauses)
+            {
+                var label = clause switch
+                {
+                    ISingleValueCaseClauseOperation singleValue => singleValue.Value.Syntax.ToString(),
+                    IDefaultCaseClauseOperation => "default",
+                    IPatternCaseClauseOperation pattern => pattern.Pattern.Syntax.ToString(),
+                    _ => clause.Syntax.ToString()
+                };
+                switchSection.Labels.Add(label);
+            }
+
+            // Analyze the body
+            var invocationAnalyzer = new InvocationsAnalyzer(semanticModel, switchSection.Statements);
+            foreach (var bodyOperation in @case.Body)
+            {
+                invocationAnalyzer.Visit(bodyOperation);
+            }
+        }
+    }
+
+    public void VisitConditionalOperation(IConditionalOperation operation)
+    {
+        var ifStatement = new If();
+        statements.Add(ifStatement);
+
+        var ifSection = new IfElseSection();
+        ifStatement.Sections.Add(ifSection);
+
+        ifSection.Condition = operation.Condition.Syntax.ToString();
+
+        var ifInvocationAnalyzer = new InvocationsAnalyzer(semanticModel, ifSection.Statements);
+        ifInvocationAnalyzer.Visit(operation.WhenTrue);
+
+        if (operation.WhenFalse != null)
+        {
+            var elseSection = new IfElseSection();
+            ifStatement.Sections.Add(elseSection);
+
+            var elseInvocationAnalyzer = new InvocationsAnalyzer(semanticModel, elseSection.Statements);
+            elseInvocationAnalyzer.Visit(operation.WhenFalse);
+        }
     }
 }

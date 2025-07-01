@@ -258,7 +258,19 @@ public class SourceAnalyzer(SemanticModel semanticModel, List<TypeDescription> t
         }
 
         var invocationAnalyzer = new InvocationsAnalyzer(semanticModel, method.Statements);
-        invocationAnalyzer.Visit((SyntaxNode?)node.Body ?? node.ExpressionBody);
+        
+        // Get the operation for the method body
+        var bodyOperation = node.Body != null ? semanticModel.GetOperation(node.Body) : null;
+        var expressionOperation = node.ExpressionBody != null ? semanticModel.GetOperation(node.ExpressionBody) : null;
+        
+        if (bodyOperation != null)
+        {
+            invocationAnalyzer.Visit(bodyOperation);
+        }
+        else if (expressionOperation != null)
+        {
+            invocationAnalyzer.Visit(expressionOperation);
+        }
     }
 
     private static Modifier ParseModifiers(SyntaxTokenList modifiers)

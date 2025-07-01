@@ -1,181 +1,137 @@
+using Microsoft.CodeAnalysis.Operations;
+
 namespace DendroDocs.Tool;
 
-internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> statements) : CSharpSyntaxWalker
+internal class InvocationsAnalyzer(SemanticModel semanticModel, List<Statement> statements) : OperationWalker
 {
-    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
+    public override void VisitObjectCreation(IObjectCreationOperation operation)
     {
-        string containingType = semanticModel.GetTypeDisplayString(node);
-
-        var invocation = new InvocationDescription(containingType, node.Type.ToString());
-        statements.Add(invocation);
-
-        if (node.ArgumentList != null)
-        {
-            foreach (var argument in node.ArgumentList.Arguments)
-            {
-                var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(argument.Expression), argument.Expression.ToString());
-                invocation.Arguments.Add(argumentDescription);
-            }
-        }
-
-        if (node.Initializer != null)
-        {
-            foreach (var expression in node.Initializer.Expressions)
-            {
-                var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(expression), expression.ToString());
-                invocation.Arguments.Add(argumentDescription);
-            }
-        }
-
-        base.VisitObjectCreationExpression(node);
-    }
-
-    public override void VisitImplicitObjectCreationExpression(ImplicitObjectCreationExpressionSyntax node)
-    {
-        // For implicit object creation (new()), get the type from the semantic model
-        var typeInfo = semanticModel.GetTypeInfo(node);
-        string containingType = typeInfo.Type?.ToDisplayString() ?? string.Empty;
-        string typeName = typeInfo.Type?.Name ?? "object";
+        string containingType = operation.Type?.ToDisplayString() ?? string.Empty;
+        string typeName = operation.Type?.Name ?? string.Empty;
 
         var invocation = new InvocationDescription(containingType, typeName);
         statements.Add(invocation);
 
-        if (node.ArgumentList != null)
+        foreach (var argument in operation.Arguments)
         {
-            foreach (var argument in node.ArgumentList.Arguments)
-            {
-                var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(argument.Expression), argument.Expression.ToString());
-                invocation.Arguments.Add(argumentDescription);
-            }
-        }
-
-        if (node.Initializer != null)
-        {
-            foreach (var expression in node.Initializer.Expressions)
-            {
-                var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(expression), expression.ToString());
-                invocation.Arguments.Add(argumentDescription);
-            }
-        }
-
-        base.VisitImplicitObjectCreationExpression(node);
-    }
-
-    public override void VisitSwitchStatement(SwitchStatementSyntax node)
-    {
-        var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);
-        branchingAnalyzer.Visit(node);
-    }
-
-    public override void VisitSwitchExpression(SwitchExpressionSyntax node)
-    {
-        var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);
-        branchingAnalyzer.Visit(node);
-    }
-
-    public override void VisitIfStatement(IfStatementSyntax node)
-    {
-        var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);
-        branchingAnalyzer.Visit(node);
-    }
-
-    public override void VisitForEachStatement(ForEachStatementSyntax node)
-    {
-        var loopingAnalyzer = new LoopingAnalyzer(semanticModel, statements);
-        loopingAnalyzer.Visit(node);
-    }
-
-    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-    {
-        var expression = this.GetExpressionWithSymbol(node);
-
-        if (semanticModel.GetConstantValue(node).HasValue && IsNameofExpression(node.Expression))
-        {
-            // nameof is compiler sugar, and is actually a method we are not interrested in
-            return;
-        }
-
-        if (Program.RuntimeOptions.VerboseOutput && semanticModel.GetSymbolInfo(expression).Symbol is null)
-        {
-            Console.WriteLine("WARN: Could not resolve type of invocation of the following block:");
-            Console.WriteLine(node.ToFullString());
-            return;
-        }
-
-        var symbolInfo = semanticModel.GetSymbolInfo(expression);
-        var containingType = symbolInfo.Symbol?.ContainingSymbol ?? symbolInfo.CandidateSymbols.FirstOrDefault()?.ContainingSymbol;
-        var containingTypeAsString = containingType?.ToDisplayString() ?? string.Empty;
-
-        var methodName = node.Expression switch
-        {
-            MemberAccessExpressionSyntax m => m.Name.ToString(),
-            IdentifierNameSyntax i => i.Identifier.ValueText,
-            _ => string.Empty
-        };
-
-        var invocation = new InvocationDescription(containingTypeAsString, methodName);
-        statements.Add(invocation);
-
-        foreach (var argument in node.ArgumentList.Arguments)
-        {
-            var value = argument.Expression.ResolveValue(semanticModel);
-
-            var argumentDescription = new ArgumentDescription(semanticModel.GetTypeDisplayString(argument.Expression), value);
+            var value = GetConstantValueOrDefault(argument.Value);
+            var argumentDescription = new ArgumentDescription(argument.Value.Type?.ToDisplayString() ?? string.Empty, value);
             invocation.Arguments.Add(argumentDescription);
         }
 
-        base.VisitInvocationExpression(node);
-    }
-
-    private ExpressionSyntax GetExpressionWithSymbol(InvocationExpressionSyntax node)
-    {
-        var expression = node.Expression;
-
-        if (semanticModel.GetSymbolInfo(expression).Symbol == null)
+        if (operation.Initializer != null)
         {
-            // This might be part of a chain of extention methods (f.e. Fluent API's), the symbols are only available at the beginning of the chain.
-            var pNode = (SyntaxNode)node;
-
-            while (pNode != null && (pNode is not InvocationExpressionSyntax || (pNode is InvocationExpressionSyntax && (semanticModel.GetTypeInfo(pNode).Type?.Kind == SymbolKind.ErrorType || semanticModel.GetSymbolInfo(expression).Symbol == null))))
+            foreach (var initializer in operation.Initializer.Initializers)
             {
-                pNode = pNode.Parent;
-
-                if (pNode is InvocationExpressionSyntax syntax)
+                var value = initializer switch
                 {
-                    expression = syntax.Expression;
-                }
+                    IAssignmentOperation assignment => assignment.Value.Syntax.ToString(),
+                    _ => initializer.Syntax.ToString()
+                };
+                
+                var argumentDescription = new ArgumentDescription(initializer.Type?.ToDisplayString() ?? string.Empty, value);
+                invocation.Arguments.Add(argumentDescription);
             }
         }
 
-        return expression;
+        base.VisitObjectCreation(operation);
     }
 
-    public override void VisitReturnStatement(ReturnStatementSyntax node)
+    public override void VisitSwitch(ISwitchOperation operation)
     {
-        var returnDescription = new ReturnDescription(node.Expression?.ResolveValue(semanticModel) ?? string.Empty);
+        var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);
+        branchingAnalyzer.VisitSwitchOperation(operation);
+    }
+
+    public override void VisitConditional(IConditionalOperation operation)
+    {
+        var branchingAnalyzer = new BranchingAnalyzer(semanticModel, statements);
+        branchingAnalyzer.VisitConditionalOperation(operation);
+    }
+
+    public override void VisitForEachLoop(IForEachLoopOperation operation)
+    {
+        var loopingAnalyzer = new LoopingAnalyzer(semanticModel, statements);
+        loopingAnalyzer.VisitForEachLoopOperation(operation);
+    }
+
+    public override void VisitInvocation(IInvocationOperation operation)
+    {
+        // Check for nameof expression
+        if (operation.TargetMethod.Name == "nameof" && operation.Arguments.Length == 1)
+        {
+            // nameof is compiler sugar, and is actually a method we are not interested in
+            return;
+        }
+
+        var containingType = operation.TargetMethod.ContainingType?.ToDisplayString() ?? string.Empty;
+        var methodName = operation.TargetMethod.Name;
+
+        var invocation = new InvocationDescription(containingType, methodName);
+        statements.Add(invocation);
+
+        foreach (var argument in operation.Arguments)
+        {
+            var value = GetConstantValueOrDefault(argument.Value);
+            var argumentDescription = new ArgumentDescription(argument.Value.Type?.ToDisplayString() ?? string.Empty, value);
+            invocation.Arguments.Add(argumentDescription);
+        }
+
+        base.VisitInvocation(operation);
+    }
+
+    public override void VisitReturn(IReturnOperation operation)
+    {
+        var value = operation.ReturnedValue != null ? GetConstantValueOrDefault(operation.ReturnedValue) : string.Empty;
+        var returnDescription = new ReturnDescription(value);
         statements.Add(returnDescription);
 
-        base.VisitReturnStatement(node);
+        base.VisitReturn(operation);
     }
 
-    public override void VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
+    public override void VisitSimpleAssignment(ISimpleAssignmentOperation operation)
     {
-        var returnDescription = new ReturnDescription(node.Expression.ResolveValue(semanticModel));
-        statements.Add(returnDescription);
-
-        base.VisitArrowExpressionClause(node);
-    }
-
-    public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
-    {
-        var assignmentDescription = new AssignmentDescription(node.Left.ToString(), node.OperatorToken.Text, node.Right.ToString());
+        var target = operation.Target.Syntax.ToString();
+        var value = operation.Value.Syntax.ToString();
+        
+        var assignmentDescription = new AssignmentDescription(target, "=", value);
         statements.Add(assignmentDescription);
 
-        base.VisitAssignmentExpression(node);
+        base.VisitSimpleAssignment(operation);
     }
 
-    private static bool IsNameofExpression(ExpressionSyntax expression)
+    public override void VisitCompoundAssignment(ICompoundAssignmentOperation operation)
     {
-        return expression is IdentifierNameSyntax identifier && string.Equals(identifier.Identifier.ValueText, "nameof", StringComparison.Ordinal);
+        var target = operation.Target.Syntax.ToString();
+        var value = operation.Value.Syntax.ToString();
+        var operatorToken = operation.OperatorKind switch
+        {
+            BinaryOperatorKind.Add => "+=",
+            BinaryOperatorKind.Subtract => "-=",
+            BinaryOperatorKind.Multiply => "*=",
+            BinaryOperatorKind.Divide => "/=",
+            BinaryOperatorKind.Remainder => "%=",
+            BinaryOperatorKind.And => "&=",
+            BinaryOperatorKind.Or => "|=",
+            BinaryOperatorKind.ExclusiveOr => "^=",
+            BinaryOperatorKind.LeftShift => "<<=",
+            BinaryOperatorKind.RightShift => ">>=",
+            _ => "="
+        };
+        
+        var assignmentDescription = new AssignmentDescription(target, operatorToken, value);
+        statements.Add(assignmentDescription);
+
+        base.VisitCompoundAssignment(operation);
+    }
+
+    private static string GetConstantValueOrDefault(IOperation operation)
+    {
+        return operation switch
+        {
+            ILiteralOperation literal => literal.ConstantValue.Value?.ToString() ?? string.Empty,
+            IFieldReferenceOperation field when field.Field.IsConst => field.Field.ConstantValue?.ToString() ?? string.Empty,
+            _ => operation.Syntax.ToString()
+        };
     }
 }

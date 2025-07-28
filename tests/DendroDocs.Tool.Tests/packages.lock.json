@@ -535,7 +535,7 @@
         "dependencies": {
           "Buildalyzer.Workspaces": "[7.1.0, )",
           "CommandLineParser": "[2.9.1, )",
-          "DendroDocs.Shared": "[0.3.0, )",
+          "DendroDocs.Shared": "[0.4.2, )",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "[4.12.0, )",
           "Microsoft.CodeAnalysis.VisualBasic.Workspaces": "[4.12.0, )",
           "Newtonsoft.Json.Schema": "[4.0.1, )"
@@ -560,9 +560,9 @@
       },
       "DendroDocs.Shared": {
         "type": "CentralTransitive",
-        "requested": "[0.3.0, )",
-        "resolved": "0.3.0",
-        "contentHash": "0gaDwHatqmitnHE3bacmnnAnNCl621rCsqCeu6xrjaiR5adoRS/N0eUnsG0vnFnl+755+bIHzpanJpLXH7S6Uw==",
+        "requested": "[0.4.2, )",
+        "resolved": "0.4.2",
+        "contentHash": "YfYo/kboAwdy8Qo0Iu1FF7+pZ+Fd8BHIyM8XbHTczjYjcmVsSJl2VS1oCJTj5eymMHqWMX2eTzQWRMByxnVVaA==",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         }

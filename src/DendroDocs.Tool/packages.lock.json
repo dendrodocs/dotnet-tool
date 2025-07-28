@@ -21,9 +21,9 @@
       },
       "DendroDocs.Shared": {
         "type": "Direct",
-        "requested": "[0.3.0, )",
-        "resolved": "0.3.0",
-        "contentHash": "0gaDwHatqmitnHE3bacmnnAnNCl621rCsqCeu6xrjaiR5adoRS/N0eUnsG0vnFnl+755+bIHzpanJpLXH7S6Uw==",
+        "requested": "[0.4.2, )",
+        "resolved": "0.4.2",
+        "contentHash": "YfYo/kboAwdy8Qo0Iu1FF7+pZ+Fd8BHIyM8XbHTczjYjcmVsSJl2VS1oCJTj5eymMHqWMX2eTzQWRMByxnVVaA==",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         }

@@ -82,7 +82,4 @@ jobs:
         uses: actions/attest-sbom@bd218ad0dbcb3e146bd073d1d9c6d78e08aa8a0b
         with:
           sbom-path: Sbom/_manifest/spdx_2.2/manifest.spdx.json
-          subject-path: |
-            Artifacts/*.nupkg
-            Artifacts/*.snupkg
           subject-checksums: Artifacts/SHA256SUMS

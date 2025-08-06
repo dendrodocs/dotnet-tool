@@ -67,7 +67,7 @@ jobs:
       - name: Upload SBOM
         if: >
           (github.event_name == 'release') ||
-          (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'dendrodocs/dotnet-shared-lib')
+          (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'dendrodocs/dotnet-tool')
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: SBOM
@@ -78,7 +78,7 @@ jobs:
       - name: Attest SBOM
         if: >
           (github.event_name == 'release') ||
-          (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'dendrodocs/dotnet-shared-lib')
+          (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'dendrodocs/dotnet-tool')
         uses: actions/attest-sbom@bd218ad0dbcb3e146bd073d1d9c6d78e08aa8a0b
         with:
           sbom-path: Sbom/_manifest/spdx_2.2/manifest.spdx.json

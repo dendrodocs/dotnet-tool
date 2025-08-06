@@ -264,3 +264,8 @@ paket-files/
 pub/
 
 **/launchSettings.json
+
+.trivy-cache
+.nuke/temp
+[Aa]rtifacts
+[Ss]bom

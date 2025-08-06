@@ -8,32 +8,81 @@ on:
     branches:
       - main
   release:
-    types: [created]
+    types:
+      - created
+
+permissions:
+  contents: read
+  packages: none
+  id-token: none
+  attestations: none
 
 jobs:
-  ubuntu-latest:
-    name: ubuntu-latest
-    runs-on: ubuntu-latest
+  build:
+    name: Build & Push
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+
     steps:
-      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
+
       - name: 'Cache: .nuke/temp, ~/.nuget/packages'
-        uses: actions/cache@v4
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
+
+      - name: Cache Trivy DB
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: .trivy-cache
+          key: ${{ runner.os }}-trivy-cache
+
       - name: 'Run: Push'
         run: ./build.cmd Push
         env:
           FeedGitHubToken: ${{ secrets.FEED_GITHUB_TOKEN }}
           NuGetApiKey: ${{ secrets.NUGET_API_KEY }}
+
       - name: Report Coveralls
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+
       - name: 'Publish: Artifacts'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: Artifacts
           path: Artifacts
+
+      # Upload the Software Bill of Materials (SBOM) for this build, to enable downstream trust/analysis
+      - name: Upload SBOM
+        if: >
+          (github.event_name == 'release') ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'dendrodocs/dotnet-shared-lib')
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: SBOM
+          path: Sbom/_manifest/spdx_2.2/manifest.spdx.json
+
+      # Use GitHub's attest-sbom action to cryptographically tie the SBOM to the artifacts + their checksums
+      # (SLSA provenance proof, can be verified by downstream consumers)
+      - name: Attest SBOM
+        if: >
+          (github.event_name == 'release') ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'dendrodocs/dotnet-shared-lib')
+        uses: actions/attest-sbom@bd218ad0dbcb3e146bd073d1d9c6d78e08aa8a0b
+        with:
+          sbom-path: Sbom/_manifest/spdx_2.2/manifest.spdx.json
+          subject-path: |
+            Artifacts/*.nupkg
+            Artifacts/*.snupkg
+          subject-checksums: Artifacts/SHA256SUMS

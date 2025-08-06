@@ -24,16 +24,21 @@
     "ExecutableTarget": {
       "type": "string",
       "enum": [
+        "Audit",
         "CalculateVersion",
         "Clean",
         "CodeCoverage",
         "Compile",
         "Pack",
+        "Proof",
         "Push",
         "PushGithub",
         "PushNuget",
         "Restore",
-        "UnitTests"
+        "SbomDeliverable",
+        "ScanSource",
+        "UnitTests",
+        "VerifyCleanGit"
       ]
     },
     "Verbosity": {

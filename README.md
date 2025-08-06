@@ -36,6 +36,16 @@ dendrodocs-analyze --solution G:\DendroDocs\dotnet-shared-lib\DendroDocs.Shared.
 The output of **DendroDocs.Tool** is a comprehensive JSON file that conforms to the schema defined in the [DendroDocs Schema](https://github.com/dendrodocs/schema).
 This JSON file provides a representation of your source code, which can be used to generate various types of documentation or integrate with other tools in your development pipeline.
 
+## Security & Build Attestation
+
+This library includes build attestation through GitHub's attest-build-provenance action, providing cryptographic proof of the build process and artifact integrity. Each published package includes verifiable provenance information that demonstrates:
+
+* The exact repository and commit that built the artifacts
+* The GitHub Actions workflow that produced the packages
+* Cryptographic signatures ensuring artifact authenticity
+
+This ensures that the packages you install have not been tampered with and came from the official DendroDocs build pipeline.
+
 ## The DendroDocs Ecosystem
 
 **DendroDocs.Tool** is part of the broader DendroDocs ecosystem.

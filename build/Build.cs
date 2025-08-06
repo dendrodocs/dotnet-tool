@@ -343,14 +343,14 @@ class Build : NukeBuild
             File.WriteAllText(ArtifactsDirectory / "SHA256SUMS", hashFileBuilder.ToString());
         });
 
-    // Chain all push steps and verify clean state before releasing
+    // Chain all push steps
     Target Push => _ => _
-        .DependsOn(VerifyCleanGit)
         .DependsOn(PushNuget)
         .DependsOn(PushGithub);
 
-    // This target brings together source scanning and SBOM production as the 'proof' step
+    // This target brings together source scanning and SBOM production as the 'proof' step and verify clean state before releasing
     Target Proof => _ => _
+        .DependsOn(VerifyCleanGit)
         .DependsOn(ScanSource)
         .DependsOn(SbomDeliverable);
 

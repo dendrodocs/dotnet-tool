@@ -1,0 +1,3 @@
+vulnerabilities:
+  - id: CVE-2025-26646
+    statement: Microsoft.Build.Tasks.Core 17.11.31 is believed to be a fixed version, incorrectly not marked as such.

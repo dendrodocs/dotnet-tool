@@ -12,8 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[6.0.2]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.4.7]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.3.0]" />
+    <PackageDownload Include="Microsoft.Sbom.DotNetTool" Version="[4.1.0]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.4.11]" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" />
     <PackageReference Include="Nuke.Common" />
     <PackageReference Include="Nuke.Components" />
   </ItemGroup>

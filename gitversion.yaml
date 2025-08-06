@@ -1,12 +1,10 @@
-next-version: 0.1.0
 branches:
   release:
     regex: releases?[/-]
     label: rc
   pull-request:
-    mode: ContinuousDeployment
-    regex: ((pull|pull\-requests|pr)[/-]|[/-](merge))
-    label: pr
-    label-number-pattern: '[/-]?(?<number>\d+)'
+    mode: ContinuousDelivery
+    regex: ^(pull-requests|pull|pr)[\/-](?<Number>\d*)
+    label: pr{Number}
     prevent-increment:
       of-merged-branch: false

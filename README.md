@@ -28,7 +28,20 @@ dotnet tool install --global DendroDocs.Tool
 Example usage:
 
 ```shell
+# Analyze a solution file
 dendrodocs-analyze --solution G:\DendroDocs\dotnet-shared-lib\DendroDocs.Shared.sln --output shared.json --pretty --verbose --exclude G:\DendroDocs\dotnet-shared-lib\build\_build.csproj
+
+# Analyze a single project file
+dendrodocs-analyze --project MyProject.csproj --output project.json --pretty
+
+# Analyze all projects in a folder
+dendrodocs-analyze --folder /path/to/projects --output folder.json --pretty
+
+# Use glob patterns to select specific projects
+dendrodocs-analyze --folder "src/**/*.csproj" --output matched.json --pretty
+
+# Exclude specific projects when analyzing a folder
+dendrodocs-analyze --folder /path/to/projects --exclude /path/to/unwanted.csproj,/path/to/test.csproj --output filtered.json
 ```
 
 ## Output

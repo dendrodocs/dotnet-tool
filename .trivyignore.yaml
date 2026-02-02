@@ -1,5 +1,5 @@
 vulnerabilities:
   - id: CVE-2025-26646
     purls:
-      - "pkg:nuget/Microsoft.Build.Tasks.Core@17.11.31"
-    statement: Microsoft.Build.Tasks.Core 17.11.31 is believed to be a fixed version, incorrectly not marked as such.
+      - "pkg:nuget/Microsoft.Build.Tasks.Core@17.11.48"
+    statement: Microsoft.Build.Tasks.Core 17.11.48 is believed to be a fixed version, incorrectly not marked as such.

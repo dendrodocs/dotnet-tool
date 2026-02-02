@@ -68,7 +68,7 @@ dotnet test --collect:"XPlat Code Coverage"
 
 - Uses central package management via `Directory.Packages.props`
 - Shared library: DendroDocs.Shared (from dendrodocs/dotnet-shared-lib)
-- Schema: DendroDocs Schema (from dendrodocs/schema)
+- Schema: the DendroDocs Schema (from dendrodocs/schema)
 
 ## Key Files
 

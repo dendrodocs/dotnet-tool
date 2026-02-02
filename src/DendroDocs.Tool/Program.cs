@@ -31,7 +31,9 @@ public static partial class Program
 
         using (var analyzer = options.SolutionPath is not null
             ? AnalyzerSetup.BuildSolutionAnalyzer(options.SolutionPath, options.ExcludedProjectPaths)
-            : AnalyzerSetup.BuildProjectAnalyzer(options.ProjectPath!))
+            : options.ProjectPath is not null
+            ? AnalyzerSetup.BuildProjectAnalyzer(options.ProjectPath!)
+            : AnalyzerSetup.BuildFolderAnalyzer(options.FolderPath!, options.ExcludedProjectPaths))
         {
             await AnalyzeWorkspace(types, analyzer).ConfigureAwait(false);
         }

@@ -71,13 +71,13 @@
       },
       "Buildalyzer": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "U6e7mHdQC672lfvqNVp70jQGb8g3aPnLafnFnnrzUwFfPX+4tK5uk3Ah+1R3svyG5kc3Qu9ZjBrhcvml/IwXrw==",
+        "resolved": "8.0.0",
+        "contentHash": "7mbo1vjd0Hb8TMmluwaqVrn0aqrX4jNjpFBbKDDOAWWJ2IXAg4gxXQfKD+s4V/8dUEtGm0AqqK1MCVUQ1+U2Sw==",
         "dependencies": {
-          "Buildalyzer.Logger": "7.1.0",
+          "Buildalyzer.Logger": "8.0.0",
           "MSBuild.StructuredLogger": "2.2.158",
           "Microsoft.Build": "17.10.4",
-          "Microsoft.Build.Tasks.Core": "17.10.4",
+          "Microsoft.Build.Tasks.Core": "17.10.29",
           "Microsoft.CodeAnalysis.CSharp": "4.0.0",
           "Microsoft.CodeAnalysis.VisualBasic": "4.0.0",
           "Microsoft.Extensions.Logging": "6.0.0",
@@ -87,8 +87,8 @@
       },
       "Buildalyzer.Logger": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "a0T+Se+HSCxOvP2s7kUbgHBVeeJghliN9CO3pSl8JfqPhKD9JaE7ZxS3iTEgKglDsRibcqbdIxhYvvvIdLOvuQ=="
+        "resolved": "8.0.0",
+        "contentHash": "Ug+S3lWUEy1vb8nz2VIt9XZvmgpxpwpGF8bcjL1g6J8ZrO6nhc646wR8vj/PSxC87Vr/XA3gir7H8QrdYbzDYA=="
       },
       "DiffEngine": {
         "type": "Transitive",
@@ -525,7 +525,7 @@
       "dendrodocs.tool": {
         "type": "Project",
         "dependencies": {
-          "Buildalyzer.Workspaces": "[7.1.0, )",
+          "Buildalyzer.Workspaces": "[8.0.0, )",
           "CommandLineParser": "[2.9.1, )",
           "DendroDocs.Shared": "[0.4.2, )",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "[4.14.0, )",
@@ -535,11 +535,11 @@
       },
       "Buildalyzer.Workspaces": {
         "type": "CentralTransitive",
-        "requested": "[7.1.0, )",
-        "resolved": "7.1.0",
-        "contentHash": "53oEuLJlNAxigOOU/wffccclOec54FtgasrUTMuLeVcwZ0/eBY++9l7dABPA/UXbTrP3q9Is/AfAbjzbHZmy9g==",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "8wcxQ3wUingy0js8DDVRf+PMivYsH7xy10mUJuVXAmcs9fIULIE4MXq3L70dYQI2idh9ChgS/Xj+fSC1jS+MQA==",
         "dependencies": {
-          "Buildalyzer": "7.1.0",
+          "Buildalyzer": "8.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "4.10.0",
           "Microsoft.CodeAnalysis.VisualBasic.Workspaces": "4.10.0"
         }

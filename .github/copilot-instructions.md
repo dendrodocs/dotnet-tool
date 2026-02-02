@@ -8,7 +8,7 @@ DendroDocs.Tool is a .NET command-line tool that analyzes .NET projects and solu
 
 - **Language**: C# (.NET 8.0)
 - **Build System**: NUKE build automation
-- **Testing Framework**: xUnit
+- **Testing Framework**: MSTest
 - **Package Manager**: NuGet with central package management
 - **CI/CD**: GitHub Actions
 
@@ -21,7 +21,7 @@ DendroDocs.Tool is a .NET command-line tool that analyzes .NET projects and solu
 ./build.sh Compile
 
 # Run tests
-./build.sh Test
+./build.sh UnitTests
 
 # Create packages
 ./build.sh Pack
@@ -82,14 +82,14 @@ dotnet test --collect:"XPlat Code Coverage"
 ## Security
 
 - SBOM (Software Bill of Materials) is generated for releases
-- Build attestation is provided via GitHub's attest-build-provenance
+- SBOM attestation is provided via GitHub's `attest-sbom` action
 - Trivy is used for vulnerability scanning (see `.trivyignore.yaml`)
 - CodeQL scanning is enabled
 
 ## When Making Changes
 
 1. **Always build before testing**: Run `./build.sh Compile` to ensure code compiles
-2. **Run tests**: Use `./build.sh Test` or `dotnet test` to verify changes
+2. **Run tests**: Use `./build.sh UnitTests` or `dotnet test` to verify changes
 3. **Check formatting**: The project uses `.editorconfig` for consistent formatting
 4. **Update tests**: Add or update tests for new functionality
 5. **Check coverage**: Ensure test coverage doesn't decrease
